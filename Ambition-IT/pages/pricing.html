@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/pricing.css">
+
+    <title>Pricing &amp; Instant Estimate | Ambition IT</title>
+    <meta name="description" content="Explore Ambition IT website packages and build an instant estimated price for your project.">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar" aria-label="Main navigation">
+            <a href="../pages/home.html" class="brand">
+                <img class="brand-logo" src="../imgs/ambition-it-logo-transparent-cropped.png" alt="Ambition IT">
+                <span class="brand-name">Ambition IT</span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navigation-links">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-links" id="navigation-links">
+                <li><a href="../pages/home.html">Home</a></li>
+                <li><a href="../pages/services.html">Services</a></li>
+                <li><a class="active" href="../pages/pricing.html">Pricing</a></li>
+                <li><a href="../pages/web-design.html">Web Design</a></li>
+                <li><a href="../pages/about.html">About Us</a></li>
+                <li><a class="contact-button" href="../pages/contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="pricing-hero">
+            <div class="pricing-container pricing-hero-inner">
+                <p class="pricing-eyebrow">Clear, straightforward pricing</p>
+                <h1>A website price built <span>around your business.</span></h1>
+                <p class="pricing-hero-copy">
+                    Choose a starting package, add what your project needs and see an
+                    estimated upfront and annual cost immediately.
+                </p>
+                <a class="pricing-primary-button" href="#instant-estimate">Build your estimate <span aria-hidden="true">↓</span></a>
+            </div>
+        </section>
+
+        <section class="package-section" aria-labelledby="package-title">
+            <div class="pricing-container">
+                <div class="pricing-heading">
+                    <div>
+                        <p class="pricing-eyebrow">Choose a starting point</p>
+                        <h2 id="package-title">Simple packages. Room to grow.</h2>
+                    </div>
+                    <p>Every project is tailored to your business. These packages give your estimate a clear starting point.</p>
+                </div>
+
+                <div class="package-grid">
+                    <article class="package-card">
+                        <p class="package-label">Focused launch</p>
+                        <h3>One-Page Website</h3>
+                        <p class="package-price">From <strong>£250</strong></p>
+                        <p>A polished scrolling website for a new venture, personal brand or focused service.</p>
+                        <ul>
+                            <li>Up to five content sections</li>
+                            <li>Responsive mobile design</li>
+                            <li>Contact call-to-action</li>
+                            <li>Basic search setup</li>
+                        </ul>
+                        <button class="package-select" type="button" data-select-package="one-page">Choose one-page</button>
+                    </article>
+
+                    <article class="package-card package-card-featured">
+                        <span class="popular-badge">Most popular</span>
+                        <p class="package-label">Complete presence</p>
+                        <h3>Multi-Page Website</h3>
+                        <p class="package-price">From <strong>£500</strong></p>
+                        <p>More space for your services, company story and customer journey.</p>
+                        <ul>
+                            <li>Up to five core pages</li>
+                            <li>Responsive mobile design</li>
+                            <li>Contact form</li>
+                            <li>Expandable structure</li>
+                        </ul>
+                        <button class="package-select" type="button" data-select-package="multi-page">Choose multi-page</button>
+                    </article>
+
+                    <article class="package-card">
+                        <p class="package-label">Larger requirements</p>
+                        <h3>Bespoke Website</h3>
+                        <p class="package-price"><strong>Custom estimate</strong></p>
+                        <p>For booking systems, customer accounts, e-commerce or complex business requirements.</p>
+                        <ul>
+                            <li>Custom page structure</li>
+                            <li>Advanced functionality</li>
+                            <li>Tailored customer journey</li>
+                            <li>Scalable development</li>
+                        </ul>
+                        <a class="package-select" href="../pages/contact.html">Discuss your project</a>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <section class="estimate-section" id="instant-estimate" aria-labelledby="estimate-title">
+            <div class="pricing-container estimate-layout">
+                <form class="estimate-builder" id="estimate-form">
+                    <div class="builder-heading">
+                        <p class="pricing-eyebrow">Instant estimate</p>
+                        <h2 id="estimate-title">What does your website need?</h2>
+                        <p>Select a package and any useful additions. You can change your choices at any time.</p>
+                    </div>
+
+                    <fieldset class="estimate-group">
+                        <legend><span>01</span> Website package</legend>
+                        <div class="choice-grid package-choices">
+                            <label class="estimate-choice">
+                                <input type="radio" name="package" value="one-page" checked>
+                                <span class="choice-copy"><strong>One-page website</strong><small>Focused single-page website</small></span>
+                                <span class="choice-price">£250</span>
+                            </label>
+                            <label class="estimate-choice">
+                                <input type="radio" name="package" value="multi-page">
+                                <span class="choice-copy"><strong>Multi-page website</strong><small>Up to five core pages</small></span>
+                                <span class="choice-price">£500</span>
+                            </label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="estimate-group">
+                        <legend><span>02</span> Add to your website</legend>
+                        <div class="choice-grid">
+                            <div
+                                class="estimate-choice page-quantity-choice"
+                                id="additional-pages-option"
+                                style="display: none;"
+                                hidden
+                            >
+                                <span class="quantity-icon" aria-hidden="true">+</span>
+                                <span class="choice-copy">
+                                    <strong>Additional pages</strong>
+                                    <small>Add pages beyond the five included</small>
+                                </span>
+                                <div class="quantity-control">
+                                    <button type="button" id="decrease-pages" aria-label="Remove one additional page">−</button>
+                                    <input id="extra-pages" name="extra-pages" type="number" min="0" max="50" value="0" inputmode="numeric" aria-label="Number of additional pages">
+                                    <button type="button" id="increase-pages" aria-label="Add one additional page">+</button>
+                                </div>
+                                <span class="choice-price">£75 per page</span>
+                            </div>
+                            <label class="estimate-choice"><input type="checkbox" name="addon" value="blog"><span class="choice-copy"><strong>E-Commerce</strong><small>Post listing and article template</small></span><span class="choice-price">+£350</span></label>
+                            <label class="estimate-choice"><input type="checkbox" name="addon" value="booking"><span class="choice-copy"><strong>Booking integration</strong><small>Connect a suitable booking service</small></span><span class="choice-price">+£300</span></label>
+                            <label class="estimate-choice"><input type="checkbox" name="addon" value="copywriting"><span class="choice-copy"><strong>Website content support</strong><small>Help create engaging content for your website</small></span><span class="choice-price">+£125</span></label>
+                            <label class="estimate-choice"><input type="checkbox" name="addon" value="seo"><span class="choice-copy"><strong>Enhanced SEO setup</strong><small>Page titles, descriptions and local setup</small></span><span class="choice-price">+£95</span></label>
+                            <label class="estimate-choice"><input type="checkbox" name="addon" value="email"><span class="choice-copy"><strong>Business email setup</strong><small>Setup assistance for one mailbox</small></span><span class="choice-price">+£75</span></label>
+                        </div>
+                    </fieldset>
+
+                    <fieldset class="estimate-group">
+                        <legend><span>03</span> Annual services estimate</legend>
+                        <div class="automatic-costs">
+                            <div>
+                                <span>Website management</span>
+                                <strong id="builder-management-total">£25/month · £300/year</strong>
+                                <small>£25/month for one page or from £40/month for a multi-page website</small>
+                            </div>
+                            <div>
+                                <span>Website hosting</span>
+                                <strong id="builder-hosting-total">£60/year</strong>
+                                <small>Automatically based on the total number of pages</small>
+                            </div>
+                        </div>
+                        <p class="automatic-note">These estimates are displayed separately from the one-off website project cost.</p>
+                    </fieldset>
+                </form>
+
+                <aside class="estimate-summary" aria-live="polite">
+                    <p class="summary-kicker">Your estimated cost</p>
+                    <div class="summary-total">
+                        <span>Website project</span>
+                        <strong id="build-total">£200</strong>
+                        <small>estimated upfront cost</small>
+                    </div>
+
+                    <div class="summary-breakdown">
+                        <div><span>Annual management estimate</span><strong id="management-total">£300</strong></div>
+                        <div><span>Annual hosting estimate</span><strong id="hosting-total">£60</strong></div>
+                        <div class="annual-total"><span>Total estimated annual cost</span><strong id="annual-total">£360</strong></div>
+                    </div>
+
+                    <div class="payment-message" id="payment-message">
+                        This project would be payable upfront because the estimated project cost is £999 or less.
+                    </div>
+
+                    <div class="summary-selections">
+                        <p>Included in this estimate</p>
+                        <ul id="estimate-items"></ul>
+                    </div>
+
+                    <a class="summary-button" href="contact.html">Discuss this estimate <span aria-hidden="true">→</span></a>
+                    <button class="reset-estimate" id="reset-estimate" type="button">Reset choices</button>
+
+                    <p class="estimate-disclaimer">
+                        This is an estimated price, not a final quotation. Your exact requirements will be confirmed before work begins.
+                    </p>
+                </aside>
+            </div>
+        </section>
+
+        <section class="payment-section">
+            <div class="pricing-container payment-panel">
+                <div>
+                    <p class="pricing-eyebrow">Payment terms</p>
+                    <h2>Know what to expect before we begin.</h2>
+                </div>
+                <div class="payment-rules">
+                    <article><span>£999 or less</span><h3>Paid upfront</h3><p>Projects with a final agreed price of £999 or less are paid in full before work begins.</p></article>
+                    <article><span>Above £999</span><h3>Split payments</h3><p>Pay 50% upfront to begin the project and the remaining 50% when the project is complete.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="pricing-final-cta">
+            <div class="pricing-container pricing-final-inner">
+                <div>
+                    <p class="pricing-eyebrow">Need something different?</p>
+                    <h2>Let’s price your project properly.</h2>
+                </div>
+                <a class="pricing-primary-button light" href="contact.html">Start a conversation <span aria-hidden="true">→</span></a>
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="../Javascript/main.js" defer></script>
+    <script src="../Javascript/footer.js" defer></script>
+    <script src="../Javascript/pricing.js" defer></script>
+</body>
+</html>
