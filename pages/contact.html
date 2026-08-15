@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="../styles/main.css">
+    <link rel="stylesheet" href="../styles/contact.css">
+
+    <title>Contact Ambition IT | Start Your Website Project</title>
+    <meta name="description" content="Contact Ambition IT to discuss web design, website management, hosting or ongoing support across Suffolk and East Anglia.">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="navbar" aria-label="Main navigation">
+            <a href="index.html" class="brand">
+                <img class="brand-logo" src="../imgs/ambition-it-logo-transparent-cropped.png" alt="Ambition IT">
+                <span class="brand-name">Ambition IT</span>
+            </a>
+
+            <button class="menu-toggle" type="button" aria-label="Open navigation menu" aria-expanded="false" aria-controls="navigation-links">
+                <span></span><span></span><span></span>
+            </button>
+
+            <ul class="nav-links" id="navigation-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="services.html">Services</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="web-design.html">Web Design</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a class="contact-button active" href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="contact-hero">
+            <div class="contact-orbit" aria-hidden="true"><span></span><span></span><span></span></div>
+            <div class="contact-container contact-hero-inner">
+                <p class="contact-eyebrow">Contact Ambition IT</p>
+                <h1>Let’s turn your idea<br><span>into something real.</span></h1>
+                <p>
+                    Tell me about your business, your website and what you want
+                    to achieve. You do not need to have every detail worked out —
+                    I’ll help you understand the next step.
+                </p>
+                <a class="contact-primary-button" href="#project-form">Start Your Enquiry <span aria-hidden="true">↓</span></a>
+            </div>
+        </section>
+
+        <section class="contact-main-section" id="project-form">
+            <div class="contact-container contact-main-grid">
+                <aside class="contact-details">
+                    <p class="contact-eyebrow">Let’s Talk</p>
+                    <h2>Start a conversation.</h2>
+                    <p class="contact-details-intro">
+                        Complete the form with as much information as you have.
+                        I’ll review your enquiry and respond personally.
+                    </p>
+
+                    <div class="contact-methods">
+                        <a href="mailto:ambitionit.business@gmail.com">
+                            <span class="contact-method-icon" aria-hidden="true">@</span>
+                            <span><small>Email</small><strong>ambitionit.business@gmail.com</strong></span>
+                        </a>
+                        <div>
+                            <span class="contact-method-icon" aria-hidden="true">⌖</span>
+                            <span><small>Based in</small><strong>Stowmarket, Suffolk</strong></span>
+                        </div>
+                        <div>
+                            <span class="contact-method-icon" aria-hidden="true">↗</span>
+                            <span><small>Coverage</small><strong>East Anglia &amp; remote</strong></span>
+                        </div>
+                    </div>
+
+                    <div class="contact-response-card">
+                        <span class="response-dot"></span>
+                        <div><strong>Direct, personal response</strong><p>Your enquiry comes directly to Ambition IT.</p></div>
+                    </div>
+                </aside>
+
+                <div class="contact-form-card">
+                    <div class="contact-form-heading">
+                        <span>Project enquiry</span>
+                        <span>01 — 08</span>
+                    </div>
+
+                    <form class="contact-form" id="contact-form" novalidate>
+                        <div class="contact-field-row">
+                            <div class="contact-field">
+                                <label for="contact-name">Your name *</label>
+                                <input id="contact-name" name="name" type="text" autocomplete="name" required placeholder="Luke Smith">
+                            </div>
+                            <div class="contact-field">
+                                <label for="business-name">Business name</label>
+                                <input id="business-name" name="business" type="text" autocomplete="organization" placeholder="Your business">
+                            </div>
+                        </div>
+
+                        <div class="contact-field-row">
+                            <div class="contact-field">
+                                <label for="contact-email">Email address *</label>
+                                <input id="contact-email" name="email" type="email" autocomplete="email" required placeholder="you@example.co.uk">
+                            </div>
+                            <div class="contact-field">
+                                <label for="contact-phone">Telephone</label>
+                                <input id="contact-phone" name="phone" type="tel" autocomplete="tel" placeholder="Your telephone number">
+                            </div>
+                        </div>
+
+                        <fieldset class="contact-options">
+                            <legend>What can I help you with? *</legend>
+                            <div class="contact-option-grid">
+                                <label><input type="radio" name="service" value="new-website" required><span>New website</span></label>
+                                <label><input type="radio" name="service" value="redesign"><span>Website redesign</span></label>
+                                <label><input type="radio" name="service" value="management"><span>Management</span></label>
+                                <label><input type="radio" name="service" value="other"><span>Something else</span></label>
+                            </div>
+                        </fieldset>
+
+                        <div class="contact-field-row">
+                            <div class="contact-field">
+                                <label for="project-budget">Estimated budget</label>
+                                <select id="project-budget" name="budget">
+                                    <option value="">Please select</option>
+                                    <option value="under-500">Under £500</option>
+                                    <option value="500-999">£500–£999</option>
+                                    <option value="1000-2499">£1,000–£2,499</option>
+                                    <option value="2500-plus">£2,500+</option>
+                                    <option value="unsure">Not sure yet</option>
+                                </select>
+                            </div>
+                            <div class="contact-field">
+                                <label for="project-timescale">Preferred timescale</label>
+                                <select id="project-timescale" name="timescale">
+                                    <option value="">Please select</option>
+                                    <option value="asap">As soon as possible</option>
+                                    <option value="one-two-months">Within 1–2 months</option>
+                                    <option value="three-months">Within 3 months</option>
+                                    <option value="exploring">Just exploring</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="contact-field">
+                            <label for="project-message">Tell me about your project *</label>
+                            <textarea id="project-message" name="message" rows="6" required placeholder="What does your business do, and what would you like the website to achieve?"></textarea>
+                        </div>
+
+                        <label class="contact-consent">
+                            <input type="checkbox" name="consent" required>
+                            <span>I agree that Ambition IT may use these details to respond to my enquiry. *</span>
+                        </label>
+
+                        <button class="contact-submit" type="submit">
+                            Send My Enquiry <span aria-hidden="true">→</span>
+                        </button>
+
+                        <p class="contact-form-status" id="contact-form-status" role="status" aria-live="polite"></p>
+                        <p class="contact-privacy-note">Your information will only be used to respond to this enquiry.</p>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-process-section">
+            <div class="contact-container">
+                <div class="contact-section-heading">
+                    <div><p class="contact-eyebrow">What Happens Next?</p><h2>A straightforward start.</h2></div>
+                    <p>No sales pressure and no confusing process. Just a conversation about what your business needs.</p>
+                </div>
+
+                <div class="contact-process-grid">
+                    <article><span>01</span><h3>You get in touch</h3><p>Share your idea, requirements and any questions using the enquiry form.</p></article>
+                    <article><span>02</span><h3>I review your project</h3><p>I’ll look through the details and identify anything we need to discuss further.</p></article>
+                    <article><span>03</span><h3>We discuss the next step</h3><p>You’ll receive clear guidance and, where suitable, a confirmed quotation.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="contact-location-section">
+            <div class="contact-container contact-location-panel">
+                <div>
+                    <p class="contact-eyebrow">Local &amp; Remote</p>
+                    <h2>Based in Suffolk. Ready to help your business.</h2>
+                </div>
+                <div>
+                    <p>
+                        Ambition IT is based in Stowmarket and supports businesses
+                        across Ipswich, Bury St Edmunds, Colchester and the wider
+                        East Anglia region. Remote projects are also welcome.
+                    </p>
+                    <a href="about.html#our-area">View Areas We Cover <span aria-hidden="true">→</span></a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <site-footer></site-footer>
+
+    <script src="../Javascript/main.js" defer></script>
+    <script src="../Javascript/footer.js" defer></script>
+    <script src="../Javascript/contact.js" defer></script>
+</body>
+</html>
