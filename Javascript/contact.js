@@ -385,11 +385,152 @@ function addRealisticMapStyles() {
 }
 
 /* =========================
-   Initialize map on page load
+   Formspark contact form
 ========================= */
 
-if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", setupRealisticContactMap);
-} else {
+function setupFormsparkContactForm() {
+    const form = document.querySelector("#contact-form");
+    const status = document.querySelector("#contact-form-status");
+
+    if (!form || !status) {
+        return;
+    }
+
+    const submitButton = form.querySelector(".contact-submit");
+    const submitLabel = form.querySelector(".contact-submit-label");
+    const defaultSubmitText = submitLabel
+        ? submitLabel.textContent
+        : "Send My Enquiry";
+
+    const showStatus = (message, type) => {
+        status.textContent = message;
+        status.classList.remove("is-error", "is-success", "is-sending");
+        status.classList.add("is-visible", `is-${type}`);
+    };
+
+    const clearStatus = () => {
+        status.textContent = "";
+        status.classList.remove(
+            "is-visible",
+            "is-error",
+            "is-success",
+            "is-sending"
+        );
+    };
+
+    form.addEventListener("input", (event) => {
+        if (event.target.matches("input, select, textarea")) {
+            event.target.classList.remove("is-invalid");
+        }
+
+        if (status.classList.contains("is-error")) {
+            clearStatus();
+        }
+    });
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const invalidFields = form.querySelectorAll(":invalid");
+
+        form.querySelectorAll(".is-invalid").forEach((field) => {
+            field.classList.remove("is-invalid");
+        });
+
+        if (invalidFields.length) {
+            invalidFields.forEach((field) => {
+                field.classList.add("is-invalid");
+            });
+
+            showStatus(
+                "Please complete all required fields before sending your enquiry.",
+                "error"
+            );
+
+            invalidFields[0].focus();
+            return;
+        }
+
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        delete payload["_email.subject"];
+        delete payload["_email.from"];
+        delete payload["_email.template.title"];
+
+        payload.consent = formData.has("consent")
+            ? "Agreed"
+            : "Not agreed";
+
+        payload._email = {
+            from: "Ambition IT Website",
+            subject: `New website enquiry from ${payload.name}`,
+            template: {
+                title: "New Ambition IT enquiry"
+            }
+        };
+
+        if (submitButton) {
+            submitButton.disabled = true;
+            submitButton.setAttribute("aria-busy", "true");
+        }
+
+        if (submitLabel) {
+            submitLabel.textContent = "Sending Enquiry...";
+        }
+
+        showStatus("Your enquiry is being sent securely...", "sending");
+
+        try {
+            const response = await fetch(form.action, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Accept: "application/json"
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (!response.ok) {
+                throw new Error(`Formspark returned ${response.status}.`);
+            }
+
+            form.reset();
+            showStatus(
+                "Thank you. Your enquiry has been sent successfully, and I’ll be in touch soon.",
+                "success"
+            );
+            status.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        } catch (error) {
+            console.error("The contact form could not be submitted.", error);
+            showStatus(
+                "Sorry, your enquiry could not be sent. Please try again or email ambitionit.business@gmail.com.",
+                "error"
+            );
+        } finally {
+            if (submitButton) {
+                submitButton.disabled = false;
+                submitButton.removeAttribute("aria-busy");
+            }
+
+            if (submitLabel) {
+                submitLabel.textContent = defaultSubmitText;
+            }
+        }
+    });
+}
+
+/* =========================
+   Initialize contact page
+========================= */
+
+function initializeContactPage() {
     setupRealisticContactMap();
+    setupFormsparkContactForm();
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initializeContactPage);
+} else {
+    initializeContactPage();
 }
