@@ -3,7 +3,6 @@ class SiteFooter extends HTMLElement {
         this.innerHTML = `
             <footer class="site-footer">
                 <div class="footer-container">
-
                     <div class="footer-top">
 
                         <!-- Brand section -->
@@ -18,31 +17,71 @@ class SiteFooter extends HTMLElement {
                                     class="footer-logo"
                                 >
 
-                                <span class="brand-name">Ambition IT</span>
+                                <span>Ambition IT</span>
                             </a>
 
                             <p>
-                                Simple, professional websites built to
-                                help businesses establish and grow their
-                                online presence.
+                                Simple, professional websites built to help
+                                businesses establish and grow their online
+                                presence.
                             </p>
 
+                            <!-- Start a Project button -->
                             <a
-                                class="footer-contact-button"
+                                class="footer-project-button"
                                 href="/pages/contact.html"
+                                style="
+                                    display: inline-flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    width: fit-content;
+                                    min-height: 48px;
+                                    padding: 13px 24px;
+                                    color: #111111;
+                                    font-family: Arial, Helvetica, sans-serif;
+                                    font-size: 0.95rem;
+                                    font-weight: 700;
+                                    line-height: 1;
+                                    text-decoration: none;
+                                    background-color: #ffffff;
+                                    border: 2px solid #ffffff;
+                                    border-radius: 999px;
+                                    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+                                    cursor: pointer;
+                                    transition:
+                                        color 0.25s ease,
+                                        background-color 0.25s ease,
+                                        box-shadow 0.25s ease,
+                                        transform 0.25s ease;
+                                "
+                                onmouseenter="
+                                    this.style.color='#ffffff';
+                                    this.style.backgroundColor='transparent';
+                                    this.style.transform='translateY(-3px)';
+                                    this.style.boxShadow='0 12px 28px rgba(0,0,0,0.3)';
+                                "
+                                onmouseleave="
+                                    this.style.color='#111111';
+                                    this.style.backgroundColor='#ffffff';
+                                    this.style.transform='translateY(0)';
+                                    this.style.boxShadow='0 8px 24px rgba(0,0,0,0.22)';
+                                "
                             >
                                 Start a Project
                             </a>
 
-                            <div class="footer-socials">
+                            <!-- Social media icons -->
+                            <div
+                                class="footer-socials"
+                                aria-label="Ambition IT social media"
+                            >
 
                                 <!-- Instagram -->
                                 <a
-                                    aria-disabled="true"
-                                    title="Instagram profile coming soon"
+                                    href="https://www.instagram.com/YOUR_INSTAGRAM_USERNAME/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    aria-label="Ambition IT on Instagram"
+                                    aria-label="Visit Ambition IT on Instagram"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
@@ -73,11 +112,10 @@ class SiteFooter extends HTMLElement {
 
                                 <!-- Facebook -->
                                 <a
-                                    aria-disabled="true"
-                                    title="Facebook profile coming soon"
+                                    href="https://www.facebook.com/YOUR_FACEBOOK_USERNAME"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    aria-label="Ambition IT on Facebook"
+                                    aria-label="Visit Ambition IT on Facebook"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
@@ -91,11 +129,10 @@ class SiteFooter extends HTMLElement {
 
                                 <!-- LinkedIn -->
                                 <a
-                                    aria-disabled="true"
-                                    title="LinkedIn profile coming soon"
+                                    href="https://www.linkedin.com/company/YOUR_LINKEDIN_NAME/"
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    aria-label="Ambition IT on LinkedIn"
+                                    aria-label="Visit Ambition IT on LinkedIn"
                                 >
                                     <svg
                                         viewBox="0 0 24 24"
@@ -125,17 +162,24 @@ class SiteFooter extends HTMLElement {
                             </div>
                         </div>
 
-                        <!-- Company column -->
-                        <div class="footer-column">
+                        <!-- Company links -->
+                        <nav
+                            class="footer-column"
+                            aria-label="Company links"
+                        >
                             <h2>Company</h2>
 
                             <ul>
                                 <li>
-                                    <a href="/pages/home.html">Home</a>
+                                    <a href="/pages/home.html">
+                                        Home
+                                    </a>
                                 </li>
 
                                 <li>
-                                    <a href="/pages/about.html">About Us</a>
+                                    <a href="/pages/about.html">
+                                        About Us
+                                    </a>
                                 </li>
 
                                 <li>
@@ -151,7 +195,9 @@ class SiteFooter extends HTMLElement {
                                 </li>
 
                                 <li>
-                                    <a href="/pages/pricing.html">Pricing</a>
+                                    <a href="/pages/pricing.html">
+                                        Pricing
+                                    </a>
                                 </li>
 
                                 <li>
@@ -160,10 +206,13 @@ class SiteFooter extends HTMLElement {
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
 
-                        <!-- Services column -->
-                        <div class="footer-column">
+                        <!-- Service links -->
+                        <nav
+                            class="footer-column"
+                            aria-label="Service links"
+                        >
                             <h2>Services</h2>
 
                             <ul>
@@ -197,38 +246,41 @@ class SiteFooter extends HTMLElement {
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
 
-                        <!-- Legal column -->
-                        <div class="footer-column">
+                        <!-- Legal links -->
+                        <nav
+                            class="footer-column"
+                            aria-label="Legal links"
+                        >
                             <h2>Legal</h2>
 
                             <ul>
                                 <li>
-                                    <span class="footer-link-disabled">
-                                        Privacy Notice <small>Coming soon</small>
-                                    </span>
+                                    <a href="/pages/legal.html#privacy">
+                                        Privacy Notice
+                                    </a>
                                 </li>
 
                                 <li>
-                                    <span class="footer-link-disabled">
-                                        Cookie Policy <small>Coming soon</small>
-                                    </span>
+                                    <a href="/pages/legal.html#cookies">
+                                        Cookie Policy
+                                    </a>
                                 </li>
 
                                 <li>
-                                    <span class="footer-link-disabled">
-                                        Terms &amp; Conditions <small>Coming soon</small>
-                                    </span>
+                                    <a href="/pages/legal.html#terms">
+                                        Terms &amp; Conditions
+                                    </a>
                                 </li>
 
                                 <li>
-                                    <span class="footer-link-disabled">
-                                        Accessibility Statement <small>Coming soon</small>
-                                    </span>
+                                    <a href="/pages/legal.html#accessibility">
+                                        Accessibility Statement
+                                    </a>
                                 </li>
                             </ul>
-                        </div>
+                        </nav>
 
                     </div>
 
@@ -239,7 +291,6 @@ class SiteFooter extends HTMLElement {
                             Ambition IT. All rights reserved.
                         </p>
                     </div>
-
                 </div>
             </footer>
         `;
@@ -254,4 +305,9 @@ class SiteFooter extends HTMLElement {
     }
 }
 
-customElements.define("site-footer", SiteFooter);
+if (!customElements.get("site-footer")) {
+    customElements.define(
+        "site-footer",
+        SiteFooter
+    );
+}

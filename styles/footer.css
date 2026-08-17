@@ -1,0 +1,78 @@
+/* Start a Project button */
+.site-footer a.footer-project-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    width: fit-content;
+    min-height: 48px;
+    padding: 13px 24px;
+
+    color: #111111;
+    font-size: 0.95rem;
+    font-weight: 700;
+    line-height: 1;
+    text-decoration: none;
+
+    background-color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 999px;
+    cursor: pointer;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
+}
+
+.site-footer a.footer-project-button:hover {
+    color: #ffffff;
+    background-color: transparent;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.28);
+    transform: translateY(-3px);
+}
+
+.site-footer a.footer-project-button:active {
+    transform: translateY(-1px);
+}
+
+.site-footer a.footer-project-button:focus-visible {
+    color: #111111;
+    background-color: #ffffff;
+    outline: 3px solid rgba(255, 255, 255, 0.4);
+    outline-offset: 4px;
+}
+
+@media (max-width: 600px) {
+    .site-footer a.footer-project-button {
+        min-height: 46px;
+        padding: 12px 22px;
+    }
+}
+
+.site-footer .footer-project-button {
+    display: inline-block;
+    padding: 14px 24px;
+
+    color: #111111 !important;
+    font-weight: 700;
+    text-decoration: none;
+
+    background-color: #ffffff !important;
+    border: 2px solid #ffffff;
+    border-radius: 999px;
+
+    transition:
+        color 0.2s ease,
+        background-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.site-footer .footer-project-button:hover {
+    color: #ffffff !important;
+    background-color: transparent !important;
+    transform: translateY(-3px);
+}
