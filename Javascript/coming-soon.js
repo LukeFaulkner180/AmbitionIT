@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", () => {
      * How long it waits before starting.
      */
     const progressSettings = {
-        percentage: 25,
+        percentage: 35,
         animationDuration: 5000,
         animationDelay: 900
     };

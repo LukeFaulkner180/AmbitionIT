@@ -9,16 +9,16 @@ class SiteFooter extends HTMLElement {
                         <!-- Brand section -->
                         <div class="footer-brand">
                             <a
-                                href="index.html"
+                                href="/pages/home.html"
                                 class="footer-brand-link"
                             >
                                 <img
-                                    src="../imgs/ambition-it-logo-transparent-cropped.png"
+                                    src="/imgs/ambition-it-logo-transparent-cropped.png"
                                     alt="Ambition IT"
                                     class="footer-logo"
                                 >
 
-                                <span>Ambition IT</span>
+                                <span class="brand-name">Ambition IT</span>
                             </a>
 
                             <p>
@@ -29,7 +29,7 @@ class SiteFooter extends HTMLElement {
 
                             <a
                                 class="footer-contact-button"
-                                href="contact.html"
+                                href="/pages/contact.html"
                             >
                                 Start a Project
                             </a>
@@ -38,7 +38,8 @@ class SiteFooter extends HTMLElement {
 
                                 <!-- Instagram -->
                                 <a
-                                    href="https://www.instagram.com/YOUR_USERNAME/"
+                                    aria-disabled="true"
+                                    title="Instagram profile coming soon"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Ambition IT on Instagram"
@@ -72,7 +73,8 @@ class SiteFooter extends HTMLElement {
 
                                 <!-- Facebook -->
                                 <a
-                                    href="https://www.facebook.com/YOUR_USERNAME"
+                                    aria-disabled="true"
+                                    title="Facebook profile coming soon"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Ambition IT on Facebook"
@@ -89,7 +91,8 @@ class SiteFooter extends HTMLElement {
 
                                 <!-- LinkedIn -->
                                 <a
-                                    href="https://www.linkedin.com/company/YOUR_USERNAME"
+                                    aria-disabled="true"
+                                    title="LinkedIn profile coming soon"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Ambition IT on LinkedIn"
@@ -128,31 +131,31 @@ class SiteFooter extends HTMLElement {
 
                             <ul>
                                 <li>
-                                    <a href="index.html">Home</a>
+                                    <a href="/pages/home.html">Home</a>
                                 </li>
 
                                 <li>
-                                    <a href="about.html">About Us</a>
+                                    <a href="/pages/about.html">About Us</a>
                                 </li>
 
                                 <li>
-                                    <a href="index.html#work">
+                                    <a href="/pages/our-work.html">
                                         Our Work
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="index.html#process">
+                                    <a href="/pages/home.html#process">
                                         Our Process
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="pricing.html">Pricing</a>
+                                    <a href="/pages/pricing.html">Pricing</a>
                                 </li>
 
                                 <li>
-                                    <a href="contact.html">
+                                    <a href="/pages/contact.html">
                                         Contact Us
                                     </a>
                                 </li>
@@ -165,31 +168,31 @@ class SiteFooter extends HTMLElement {
 
                             <ul>
                                 <li>
-                                    <a href="web-design.html">
+                                    <a href="/pages/web-design.html">
                                         Web Design
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="services.html#one-page-websites">
+                                    <a href="/pages/services.html#one-page-websites">
                                         One-Page Websites
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="services.html#multi-page-websites">
+                                    <a href="/pages/services.html#multi-page-websites">
                                         Multi-Page Websites
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="services.html#website-management">
+                                    <a href="/pages/services.html#management">
                                         Website Management
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="services.html#hosting">
+                                    <a href="/pages/services.html#support">
                                         Hosting &amp; Support
                                     </a>
                                 </li>
@@ -202,27 +205,27 @@ class SiteFooter extends HTMLElement {
 
                             <ul>
                                 <li>
-                                    <a href="privacy.html">
-                                        Privacy Notice
-                                    </a>
+                                    <span class="footer-link-disabled">
+                                        Privacy Notice <small>Coming soon</small>
+                                    </span>
                                 </li>
 
                                 <li>
-                                    <a href="cookies.html">
-                                        Cookie Policy
-                                    </a>
+                                    <span class="footer-link-disabled">
+                                        Cookie Policy <small>Coming soon</small>
+                                    </span>
                                 </li>
 
                                 <li>
-                                    <a href="terms.html">
-                                        Terms &amp; Conditions
-                                    </a>
+                                    <span class="footer-link-disabled">
+                                        Terms &amp; Conditions <small>Coming soon</small>
+                                    </span>
                                 </li>
 
                                 <li>
-                                    <a href="accessibility.html">
-                                        Accessibility Statement
-                                    </a>
+                                    <span class="footer-link-disabled">
+                                        Accessibility Statement <small>Coming soon</small>
+                                    </span>
                                 </li>
                             </ul>
                         </div>

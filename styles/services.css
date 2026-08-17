@@ -370,119 +370,6 @@
 
 .support-statements span { color: #999999; font-size: 0.8rem; text-align: right; }
 
-/* More services coming */
-.services-coming-section {
-    padding: 0 24px 110px;
-    background: #ffffff;
-}
-
-.services-coming-panel {
-    position: relative;
-    display: grid;
-    grid-template-columns: 0.55fr 1.45fr;
-    align-items: center;
-    gap: 75px;
-    padding: 70px;
-    overflow: hidden;
-    background: #f6f6f6;
-    border: 1px solid #dddddd;
-    border-radius: 36px;
-}
-
-.services-coming-panel::after {
-    content: "";
-    position: absolute;
-    top: -140px;
-    right: -130px;
-    width: 360px;
-    height: 360px;
-    border: 1px dashed rgba(0, 0, 0, 0.12);
-    border-radius: 50%;
-    animation: services-spin 48s linear infinite;
-    pointer-events: none;
-}
-
-.services-coming-mark {
-    position: relative;
-    z-index: 1;
-    display: grid;
-    place-items: center;
-    width: min(100%, 275px);
-    aspect-ratio: 1;
-    color: #ffffff;
-    background: #111111;
-    border-radius: 50%;
-    box-shadow: 0 25px 55px rgba(0, 0, 0, 0.18);
-}
-
-.services-coming-mark::before,
-.services-coming-mark::after {
-    content: "";
-    position: absolute;
-    border: 1px solid #3b3b3b;
-    border-radius: 50%;
-}
-
-.services-coming-mark::before { inset: 18px; }
-.services-coming-mark::after { inset: 35px; }
-
-.services-coming-mark span,
-.services-coming-mark strong { position: absolute; z-index: 1; }
-
-.services-coming-mark span {
-    font-size: clamp(1.5rem, 3vw, 2.5rem);
-    font-weight: 800;
-    letter-spacing: -0.04em;
-}
-
-.services-coming-mark strong {
-    top: 19%;
-    right: 22%;
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    color: #111111;
-    font-size: 1.3rem;
-    background: #ffffff;
-    border-radius: 50%;
-}
-
-.services-coming-content { position: relative; z-index: 1; }
-
-.services-coming-content h2 {
-    max-width: 700px;
-    margin: 0;
-    color: #111111;
-    font-size: clamp(2.8rem, 5vw, 5rem);
-    line-height: 0.98;
-    letter-spacing: -0.06em;
-}
-
-.services-coming-content > p:not(.services-eyebrow) {
-    max-width: 700px;
-    margin: 26px 0 0;
-    color: #606060;
-    line-height: 1.75;
-}
-
-.services-coming-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 9px;
-    margin: 28px 0;
-}
-
-.services-coming-tags span {
-    padding: 9px 13px;
-    color: #555555;
-    font-size: 0.76rem;
-    font-weight: 700;
-    background: #ffffff;
-    border: 1px solid #d7d7d7;
-    border-radius: 20px;
-}
-
 /* Final CTA */
 .services-final-cta { padding: 30px 24px 110px; background: #f6f6f6; }
 
@@ -514,7 +401,6 @@
     .service-detail-heading,
     .service-detail-content,
     .support-panel,
-    .services-coming-panel,
     .services-final-cta-inner {
         animation: ambition-reveal-up 1ms ease both;
         animation-timeline: view();
@@ -534,21 +420,17 @@
     .services-hero-visual { width: min(100%, 600px); transform: none; }
     .services-card-grid { grid-template-columns: repeat(2, 1fr); }
     .service-detail-grid, .support-panel { grid-template-columns: 1fr; gap: 45px; }
-    .services-coming-panel { grid-template-columns: 1fr; gap: 45px; }
-    .services-coming-mark { width: 210px; }
 }
 
 @media (max-width: 700px) {
     .services-hero, .services-overview, .service-detail-section { padding: 70px 20px; }
     .service-support-section { padding: 0 12px 75px; }
-    .services-coming-section { padding: 0 12px 75px; }
     .services-final-cta { padding: 20px 20px 75px; }
     .services-section-heading { grid-template-columns: 1fr; gap: 25px; }
     .services-card-grid { grid-template-columns: 1fr; }
     .service-page-card { min-height: auto; }
     .service-detail-points { grid-template-columns: 1fr; }
     .support-panel { padding: 42px 24px; border-radius: 28px; }
-    .services-coming-panel { padding: 42px 24px; border-radius: 28px; }
     .services-hero-buttons, .services-final-cta-inner > div { flex-direction: column; }
     .services-hero-buttons a, .services-final-cta-inner a { width: 100%; }
     .services-visual-badge { right: 8px; }
@@ -562,10 +444,193 @@
     .service-detail-heading,
     .service-detail-content,
     .support-panel,
-    .services-coming-panel,
     .services-final-cta-inner {
         animation: none !important;
         opacity: 1 !important;
         transform: none !important;
+    }
+}
+
+/* =========================
+   IT Support section
+========================= */
+
+.it-support-section {
+    padding: 110px 24px;
+    color: #ffffff;
+    background-color: #111111;
+}
+
+.it-support-container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+}
+
+.it-support-section > .it-support-container:first-child {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+    align-items: start;
+    gap: 90px;
+}
+
+.it-support-eyebrow {
+    margin: 0 0 18px;
+    color: #999999;
+    font-size: 0.75rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+}
+
+.it-support-heading h2 {
+    margin: 0;
+    font-size: clamp(2.8rem, 5vw, 5rem);
+    line-height: 0.98;
+    letter-spacing: -0.06em;
+}
+
+.it-support-heading h2 span {
+    display: block;
+    color: #777777;
+}
+
+.it-support-heading > p:not(.it-support-eyebrow) {
+    max-width: 580px;
+    margin: 27px 0 0;
+    color: #bcbcbc;
+    line-height: 1.75;
+}
+
+.it-support-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+    padding: 15px 23px;
+    color: #111111;
+    font-weight: 800;
+    text-decoration: none;
+    background-color: #ffffff;
+    border: 1px solid #ffffff;
+    border-radius: 28px;
+    transition: color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.it-support-button:hover {
+    color: #ffffff;
+    background-color: transparent;
+    transform: translateY(-3px);
+}
+
+.it-support-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.it-support-feature {
+    min-height: 245px;
+    padding: 25px;
+    background-color: #191919;
+    border: 1px solid #303030;
+    border-radius: 23px;
+    transition: background-color 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.it-support-feature:hover {
+    background-color: #202020;
+    border-color: #555555;
+    transform: translateY(-5px);
+}
+
+.it-support-number {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-bottom: 38px;
+    color: #111111;
+    font-size: 0.68rem;
+    font-weight: 800;
+    background-color: #ffffff;
+    border-radius: 50%;
+}
+
+.it-support-feature h3 {
+    margin: 0 0 12px;
+    color: #ffffff;
+    font-size: 1.15rem;
+}
+
+.it-support-feature p {
+    margin: 0;
+    color: #aaaaaa;
+    font-size: 0.88rem;
+    line-height: 1.65;
+}
+
+.it-support-note {
+    margin: 45px 0 0;
+    padding-top: 22px;
+    color: #888888;
+    font-size: 0.76rem;
+    line-height: 1.6;
+    border-top: 1px solid #333333;
+}
+
+/* Content remains visible by default */
+.it-support-animate {
+    opacity: 1;
+    transform: none;
+}
+
+/*
+Animation starting position is only enabled after
+JavaScript confirms that it is working.
+*/
+.it-support-section.animations-ready .it-support-animate {
+    opacity: 0;
+    transform: translateY(38px);
+
+    transition:
+        opacity 0.7s ease var(--it-delay, 0ms),
+        transform 0.7s cubic-bezier(0.22, 1, 0.36, 1)
+        var(--it-delay, 0ms);
+}
+
+.it-support-section.animations-ready
+.it-support-animate.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .it-support-section.animations-ready .it-support-animate {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .it-support-section > .it-support-container:first-child {
+        grid-template-columns: 1fr;
+        gap: 55px;
+    }
+}
+
+@media (max-width: 600px) {
+    .it-support-section {
+        padding: 75px 16px;
+    }
+
+    .it-support-content {
+        grid-template-columns: 1fr;
+    }
+
+    .it-support-feature {
+        min-height: auto;
     }
 }

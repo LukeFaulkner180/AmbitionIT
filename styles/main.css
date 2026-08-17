@@ -1779,6 +1779,48 @@ body {
 }
 
 /* =========================
+   Page Load Animations
+========================= */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.7s ease var(--reveal-delay, 0ms), 
+                transform 0.7s ease var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reveal.from-left {
+    transform: translateX(-45px);
+}
+
+.reveal.from-right {
+    transform: translateX(45px);
+}
+
+.reveal.scale-in {
+    transform: scale(0.95);
+}
+
+.reveal.from-left.is-visible,
+.reveal.from-right.is-visible,
+.reveal.scale-in.is-visible {
+    transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* =========================
    Meet Luke
 ========================= */
 
@@ -4012,4 +4054,321 @@ This prevents content remaining hidden if JavaScript fails.
     .faq-answer {
         animation: none !important;
     }
+}
+
+/* Project statistic scroll animation */
+.project-statistics > div {
+    opacity: 0;
+    transform: translateY(45px);
+
+    transition:
+        opacity 0.65s ease,
+        transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.project-statistics > div:nth-child(2) {
+    transition-delay: 0.12s;
+}
+
+.project-statistics > div:nth-child(3) {
+    transition-delay: 0.24s;
+}
+
+.project-statistics > div.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .project-statistics > div {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+
+/* =========================
+   Global animated background
+========================= */
+
+.site-ambient-background {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.ambient-shape {
+    position: absolute;
+    display: block;
+
+    border: 1px solid rgba(127, 127, 127, 0.22);
+    border-radius: 50%;
+
+    opacity: 0.65;
+    will-change: transform;
+}
+
+.ambient-shape-one {
+    top: 12%;
+    left: -85px;
+
+    width: 180px;
+    height: 180px;
+
+    animation: ambient-float-one 18s ease-in-out infinite;
+}
+
+.ambient-shape-two {
+    top: 48%;
+    right: -110px;
+
+    width: 250px;
+    height: 250px;
+
+    border-style: dashed;
+
+    animation:
+        ambient-float-two 22s ease-in-out infinite,
+        ambient-rotate 50s linear infinite;
+}
+
+.ambient-shape-three {
+    bottom: 6%;
+    left: 14%;
+
+    width: 90px;
+    height: 90px;
+
+    background: rgba(127, 127, 127, 0.04);
+
+    animation: ambient-float-three 15s ease-in-out infinite;
+}
+
+.ambient-shape-four {
+    top: 28%;
+    right: 24%;
+
+    width: 44px;
+    height: 44px;
+
+    border-radius: 13px;
+    transform: rotate(25deg);
+
+    animation: ambient-diamond 13s ease-in-out infinite;
+}
+
+.ambient-shape-five {
+    bottom: 20%;
+    right: 9%;
+
+    width: 16px;
+    height: 16px;
+
+    background-color: rgba(127, 127, 127, 0.28);
+    border: 0;
+
+    animation: ambient-small-float 10s ease-in-out infinite;
+}
+
+/* Soft cursor light */
+.ambient-cursor-light {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 430px;
+    height: 430px;
+
+    background: radial-gradient(
+        circle,
+        rgba(127, 127, 127, 0.09),
+        transparent 68%
+    );
+
+    border-radius: 50%;
+    opacity: 0;
+
+    transform: translate(-50%, -50%);
+    transition: opacity 0.35s ease;
+
+    will-change: left, top;
+}
+
+body:hover .ambient-cursor-light {
+    opacity: 1;
+}
+
+/* Floating animations */
+@keyframes ambient-float-one {
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(55px, 70px);
+    }
+}
+
+@keyframes ambient-float-two {
+    0%,
+    100% {
+        translate: 0 0;
+    }
+
+    50% {
+        translate: -60px -45px;
+    }
+}
+
+@keyframes ambient-float-three {
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-55px) scale(1.12);
+    }
+}
+
+@keyframes ambient-diamond {
+    0%,
+    100% {
+        transform: translateY(0) rotate(25deg);
+    }
+
+    50% {
+        transform: translateY(65px) rotate(115deg);
+    }
+}
+
+@keyframes ambient-small-float {
+    0%,
+    100% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(-45px, -70px);
+    }
+}
+
+@keyframes ambient-rotate {
+    to {
+        rotate: 360deg;
+    }
+}
+
+/* Keep the animated elements subtle on mobile */
+@media (max-width: 600px) {
+    .ambient-shape {
+        opacity: 0.4;
+    }
+
+    .ambient-shape-four,
+    .ambient-shape-five,
+    .ambient-cursor-light {
+        display: none;
+    }
+
+    .ambient-shape-one {
+        width: 120px;
+        height: 120px;
+    }
+
+    .ambient-shape-two {
+        width: 170px;
+        height: 170px;
+    }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .ambient-shape {
+        animation: none !important;
+    }
+
+    .ambient-cursor-light {
+        display: none;
+    }
+}
+
+/* =========================
+   Global page transitions
+========================= */
+
+body.page-transition-ready > header,
+body.page-transition-ready > main,
+body.page-transition-ready > footer,
+body.page-transition-ready > site-footer,
+body.page-transition-ready > #site-footer {
+    opacity: 0;
+    transform: translateY(18px);
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.page-transition-ready.page-is-visible > header,
+body.page-transition-ready.page-is-visible > main,
+body.page-transition-ready.page-is-visible > footer,
+body.page-transition-ready.page-is-visible > site-footer,
+body.page-transition-ready.page-is-visible > #site-footer {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Animate the page out before following a link */
+body.page-transition-ready.page-is-leaving > header,
+body.page-transition-ready.page-is-leaving > main,
+body.page-transition-ready.page-is-leaving > footer,
+body.page-transition-ready.page-is-leaving > site-footer,
+body.page-transition-ready.page-is-leaving > #site-footer {
+    opacity: 0;
+    transform: translateY(-12px);
+
+    transition:
+        opacity 0.28s ease,
+        transform 0.28s ease;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+    body.page-transition-ready > header,
+    body.page-transition-ready > main,
+    body.page-transition-ready > footer,
+    body.page-transition-ready > site-footer,
+    body.page-transition-ready > #site-footer {
+        opacity: 1;
+        transform: none;
+        transition: none;
+    }
+}
+
+/* Footer placeholders remain visible without linking to pages that do not exist yet. */
+.footer-link-disabled {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 7px;
+    color: #ffffff;
+    opacity: 0.55;
+}
+
+.footer-link-disabled small {
+    font-size: 0.62rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.footer-socials a[aria-disabled="true"] {
+    cursor: default;
+    opacity: 0.45;
+    pointer-events: none;
 }
