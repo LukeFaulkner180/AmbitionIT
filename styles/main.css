@@ -154,7 +154,7 @@ body {
 }
 
 /* Mobile layout */
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
     .site-header {
         padding: 12px;
     }
@@ -229,7 +229,7 @@ body {
 
     /* Open mobile menu */
     .nav-links.is-open {
-        max-height: 500px;
+        max-height: 620px;
         padding: 16px;
 
         visibility: visible;

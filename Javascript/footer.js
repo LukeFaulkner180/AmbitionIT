@@ -8,7 +8,7 @@ class SiteFooter extends HTMLElement {
                         <!-- Brand section -->
                         <div class="footer-brand">
                             <a
-                                href="/pages/home.html"
+                                href="/"
                                 class="footer-brand-link"
                             >
                                 <img
@@ -74,6 +74,7 @@ class SiteFooter extends HTMLElement {
                             <div
                                 class="footer-socials"
                                 aria-label="Ambition IT social media"
+                                hidden
                             >
 
                                 <!-- Instagram -->
@@ -171,7 +172,7 @@ class SiteFooter extends HTMLElement {
 
                             <ul>
                                 <li>
-                                    <a href="/pages/home.html">
+                                    <a href="/">
                                         Home
                                     </a>
                                 </li>
@@ -189,7 +190,13 @@ class SiteFooter extends HTMLElement {
                                 </li>
 
                                 <li>
-                                    <a href="/pages/home.html#process">
+                                    <a href="/pages/free-website.html">
+                                        Free Website Programme
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="/#process">
                                         Our Process
                                     </a>
                                 </li>
