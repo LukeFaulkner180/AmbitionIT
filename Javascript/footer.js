@@ -74,12 +74,11 @@ class SiteFooter extends HTMLElement {
                             <div
                                 class="footer-socials"
                                 aria-label="Ambition IT social media"
-                                hidden
                             >
 
                                 <!-- Instagram -->
                                 <a
-                                    href="https://www.instagram.com/YOUR_INSTAGRAM_USERNAME/"
+                                    href="https://www.instagram.com/ambitionit_suffolk/"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Visit Ambition IT on Instagram"
@@ -113,7 +112,7 @@ class SiteFooter extends HTMLElement {
 
                                 <!-- Facebook -->
                                 <a
-                                    href="https://www.facebook.com/YOUR_FACEBOOK_USERNAME"
+                                    href="https://www.facebook.com/profile.php?id=61585691250352"
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     aria-label="Visit Ambition IT on Facebook"
@@ -124,38 +123,6 @@ class SiteFooter extends HTMLElement {
                                     >
                                         <path
                                             d="M14 8h3V4h-3c-3 0-5 2-5 5v3H6v4h3v8h4v-8h3l1-4h-4V9c0-.6.4-1 1-1z"
-                                        ></path>
-                                    </svg>
-                                </a>
-
-                                <!-- LinkedIn -->
-                                <a
-                                    href="https://www.linkedin.com/company/YOUR_LINKEDIN_NAME/"
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    aria-label="Visit Ambition IT on LinkedIn"
-                                >
-                                    <svg
-                                        viewBox="0 0 24 24"
-                                        aria-hidden="true"
-                                    >
-                                        <rect
-                                            x="3"
-                                            y="9"
-                                            width="4"
-                                            height="12"
-                                        ></rect>
-
-                                        <circle
-                                            cx="5"
-                                            cy="5"
-                                            r="2"
-                                        ></circle>
-
-                                        <path
-                                            d="M11 9h4v2c1-1.5 2.5-2.5 4.5-2.5
-                                            3 0 4.5 2 4.5 5.5v7h-4v-6.5
-                                            c0-1.5-.5-2.5-2-2.5s-3 1-3 3v6h-4z"
                                         ></path>
                                     </svg>
                                 </a>
@@ -186,6 +153,12 @@ class SiteFooter extends HTMLElement {
                                 <li>
                                     <a href="/pages/our-work.html">
                                         Our Work
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="https://portal.ambition-it.co.uk/login">
+                                        Client Hub
                                     </a>
                                 </li>
 
