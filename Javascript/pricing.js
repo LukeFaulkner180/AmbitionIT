@@ -8,9 +8,9 @@ if (typeof document !== "undefined") {
 /*
  * EDIT PRICES HERE
  *
- * Website and add-on prices are one-off unless a monthly
- * price is also shown. Management and hosting are calculated
- * automatically from the selected package and total pages.
+ * Website and add-on prices include the one-off amounts shown
+ * on the page. Recurring management and service additions are
+ * calculated separately in the estimate summary.
  */
 const pricingConfig = {
     packages: {

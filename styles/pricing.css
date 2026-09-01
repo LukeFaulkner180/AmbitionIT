@@ -75,7 +75,7 @@
 .promotion-saving strong { white-space: nowrap; }
 .summary-breakdown { display: grid; gap: 14px; padding: 24px 0; border-bottom: 1px solid #333; }
 .summary-breakdown div { display: flex; justify-content: space-between; gap: 20px; color: #bbb; }
-.summary-breakdown strong { color: #fff; }
+.summary-breakdown strong { flex-shrink: 0; color: #fff; white-space: nowrap; }
 .summary-breakdown .annual-total { padding-top: 14px; border-top: 1px solid #333; color: #fff; font-weight: 700; }
 .payment-message { margin: 22px 0; padding: 15px; color: #d3d3d3; font-size: .82rem; line-height: 1.55; background: #1d1d1d; border: 1px solid #343434; border-radius: 14px; }
 .summary-selections p { margin: 0 0 12px; font-size: .82rem; font-weight: 800; }
