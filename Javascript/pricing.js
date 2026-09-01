@@ -368,6 +368,10 @@ function setupEstimateBuilder() {
         additionalPagesOption.style.display =
             multiPageSelected ? "" : "none";
 
+        ecommerceOption.hidden = !multiPageSelected;
+        ecommerceOption.style.display =
+            multiPageSelected ? "" : "none";
+
         if (!multiPageSelected) {
             extraPagesInput.value = 0;
             ecommerceInput.checked = false;
@@ -400,8 +404,8 @@ function setupEstimateBuilder() {
 
         if (!multiPageSelected) {
             availabilityMessage.textContent =
-                "E-commerce and monthly product uploads " +
-                "are available with multi-page websites.";
+                "Additional multi-page options will appear when " +
+                "a multi-page website is selected.";
         } else if (!ecommerceSelected) {
             availabilityMessage.textContent =
                 "Select e-commerce to add the optional " +
