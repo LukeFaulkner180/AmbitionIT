@@ -6,8 +6,8 @@
 
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="stylesheet" href="/styles/main.css?v=261cb37">
-    <link rel="stylesheet" href="/styles/pricing.css">
+    <link rel="stylesheet" href="/styles/main.css?v=20260901">
+    <link rel="stylesheet" href="/styles/pricing.css?v=20260901">
 
     <title>Website Design Prices Suffolk | Ambition IT</title>
     <meta name="description" content="Explore clear Ambition IT website design prices and build an instant estimate for a one-page, multi-page or bespoke business website.">
@@ -161,23 +161,43 @@
                                     <input id="extra-pages" name="extra-pages" type="number" min="0" max="50" value="0" inputmode="numeric" aria-label="Number of additional pages">
                                     <button type="button" id="increase-pages" aria-label="Add one additional page">+</button>
                                 </div>
-                                <span class="choice-price">£75 per page</span>
+                                <span class="choice-price">£75 + £3/month per page</span>
                             </div>
-                            <label class="estimate-choice"><input type="checkbox" name="addon" value="blog"><span class="choice-copy"><strong>E-Commerce</strong><small>Post listing and article template</small></span><span class="choice-price">+£350</span></label>
-                            <label class="estimate-choice"><input type="checkbox" name="addon" value="booking"><span class="choice-copy"><strong>Booking integration</strong><small>Connect a suitable booking service</small></span><span class="choice-price">+£300</span></label>
+                            <label class="estimate-choice" id="ecommerce-option"><input id="ecommerce-addon" type="checkbox" name="addon" value="ecommerce"><span class="choice-copy"><strong>E-Commerce</strong><small>Online shop with up to 20 initial products</small></span><span class="choice-price">+£350 + £5/month</span></label>
+                            <label class="estimate-choice"><input type="checkbox" name="addon" value="booking"><span class="choice-copy"><strong>Booking integration</strong><small>Connect a suitable booking service</small></span><span class="choice-price">+£300 + £8/month</span></label>
                             <label class="estimate-choice"><input type="checkbox" name="addon" value="copywriting"><span class="choice-copy"><strong>Website content support</strong><small>Help create engaging content for your website</small></span><span class="choice-price">+£125</span></label>
                             <label class="estimate-choice"><input type="checkbox" name="addon" value="seo"><span class="choice-copy"><strong>Enhanced SEO setup</strong><small>Page titles, descriptions and local setup</small></span><span class="choice-price">+£95</span></label>
                             <label class="estimate-choice"><input type="checkbox" name="addon" value="email"><span class="choice-copy"><strong>Business email setup</strong><small>Setup assistance for one mailbox</small></span><span class="choice-price">+£75</span></label>
+                            <label class="estimate-choice" id="product-upload-option" hidden><input id="product-upload-service" type="checkbox" name="product-uploads" value="monthly"><span class="choice-copy"><strong>Monthly product uploads</strong><small>Up to five simple products added each month</small></span><span class="choice-price">+£25/month</span></label>
+                        </div>
+
+                        <p class="estimate-availability-message" id="estimate-availability-message" aria-live="polite">
+                            E-commerce and monthly product uploads are available with multi-page websites.
+                        </p>
+
+                        <div class="ecommerce-terms" id="ecommerce-terms" hidden>
+                            <strong>E-commerce estimate includes:</strong>
+                            <ul>
+                                <li>Up to 20 initial simple products</li>
+                                <li>Client-supplied product information and images</li>
+                                <li>Payment-provider and platform fees charged separately</li>
+                                <li>More than 20 products or complex products quoted separately</li>
+                            </ul>
+                        </div>
+
+                        <div class="product-upload-terms" id="product-upload-terms" hidden>
+                            <strong>Monthly product upload service:</strong>
+                            <p>Includes up to five simple products per month. The allowance does not roll over, and complex products are quoted separately.</p>
                         </div>
                     </fieldset>
 
                     <fieldset class="estimate-group">
-                        <legend><span>03</span> Annual services estimate</legend>
+                        <legend><span>03</span> Ongoing services estimate</legend>
                         <div class="automatic-costs">
                             <div>
-                                <span>Website management</span>
+                                <span>Management and selected services</span>
                                 <strong id="builder-management-total">£25/month · £300/year</strong>
-                                <small>£25/month for one page or from £40/month for a multi-page website</small>
+                                <small>Includes management plus any selected monthly additions</small>
                             </div>
                             <div>
                                 <span>Website hosting</span>
@@ -193,12 +213,18 @@
                     <p class="summary-kicker">Your estimated cost</p>
                     <div class="summary-total">
                         <span>Website project</span>
-                        <strong id="build-total">£200</strong>
+                        <strong id="build-total">£250</strong>
                         <small>estimated upfront cost</small>
                     </div>
 
+                    <div class="promotion-saving" id="promotion-saving" hidden>
+                        <span id="promotion-label">Limited-time one-page offer</span>
+                        <strong id="promotion-amount">−£25</strong>
+                    </div>
+
                     <div class="summary-breakdown">
-                        <div><span>Annual management estimate</span><strong id="management-total">£300</strong></div>
+                        <div><span>Monthly management &amp; services</span><strong id="monthly-services-total">£25/month</strong></div>
+                        <div><span>Annual management &amp; services</span><strong id="management-total">£300</strong></div>
                         <div><span>Annual hosting estimate</span><strong id="hosting-total">£60</strong></div>
                         <div class="annual-total"><span>Total estimated annual cost</span><strong id="annual-total">£360</strong></div>
                     </div>
@@ -212,7 +238,7 @@
                         <ul id="estimate-items"></ul>
                     </div>
 
-                    <a class="summary-button" href="/pages/contact.html">Discuss this estimate <span aria-hidden="true">→</span></a>
+                    <a class="summary-button" id="request-estimate" href="/pages/contact.html">Request this estimate <span aria-hidden="true">→</span></a>
                     <button class="reset-estimate" id="reset-estimate" type="button">Reset choices</button>
 
                     <p class="estimate-disclaimer">
@@ -248,8 +274,8 @@
 
     <site-footer></site-footer>
 
-    <script src="/Javascript/main.js" defer></script>
+    <script src="/Javascript/main.js?v=20260901" defer></script>
     <script src="/Javascript/footer.js?v=261cb37" defer></script>
-    <script src="/Javascript/pricing.js" defer></script>
+    <script src="/Javascript/pricing.js?v=20260901" defer></script>
 </body>
 </html>

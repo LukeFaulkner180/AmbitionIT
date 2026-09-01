@@ -385,6 +385,216 @@ function addRealisticMapStyles() {
 }
 
 /* =========================
+   Pricing estimate hand-off
+========================= */
+
+function readPricingEstimate() {
+    const parameters = new URLSearchParams(
+        window.location.search
+    );
+    const encodedEstimate = parameters.get("estimate");
+
+    let estimate = null;
+
+    if (encodedEstimate) {
+        try {
+            estimate = JSON.parse(encodedEstimate);
+        } catch (error) {
+            console.warn("The estimate link could not be read.", error);
+        }
+    }
+
+    if (!estimate && encodedEstimate) {
+        try {
+            const savedEstimate = window.sessionStorage.getItem(
+                "ambition-it-estimate"
+            );
+
+            if (savedEstimate) {
+                estimate = JSON.parse(savedEstimate);
+            }
+        } catch (error) {
+            console.warn(
+                "The saved estimate could not be read.",
+                error
+            );
+        }
+    }
+
+    const validCosts = Boolean(
+        estimate &&
+        estimate.costs &&
+        Number.isFinite(estimate.costs.projectSubtotal) &&
+        Number.isFinite(estimate.costs.projectTotal) &&
+        Number.isFinite(estimate.costs.monthlyServices) &&
+        Number.isFinite(estimate.costs.annualServices) &&
+        Number.isFinite(estimate.costs.annualHosting) &&
+        Number.isFinite(estimate.costs.annualTotal)
+    );
+
+    if (
+        !estimate ||
+        estimate.version !== 1 ||
+        typeof estimate.packageName !== "string" ||
+        !Array.isArray(estimate.includedItems) ||
+        !validCosts
+    ) {
+        return null;
+    }
+
+    const promotionIsCurrent = Boolean(
+        estimate.promotion &&
+        window.AmbitionITPromotion &&
+        typeof window.AmbitionITPromotion.isActive === "function" &&
+        window.AmbitionITPromotion.isActive() &&
+        window.AmbitionITPromotion.config.code ===
+            estimate.promotion.code
+    );
+
+    if (estimate.promotion && !promotionIsCurrent) {
+        estimate.costs.projectTotal =
+            estimate.costs.projectSubtotal;
+        estimate.costs.promotionDiscount = 0;
+        estimate.promotion = null;
+    }
+
+    return estimate;
+}
+
+function setupPricingEstimateHandoff() {
+    const estimate = readPricingEstimate();
+    const preview = document.querySelector(
+        "#contact-estimate-preview"
+    );
+
+    if (!estimate || !preview) {
+        return;
+    }
+
+    const money = new Intl.NumberFormat("en-GB", {
+        style: "currency",
+        currency: "GBP",
+        maximumFractionDigits: 0
+    });
+
+    const includedItems = estimate.includedItems.filter(
+        (item) => typeof item === "string" && item.trim()
+    );
+    const estimateItems = document.querySelector(
+        "#contact-estimate-items"
+    );
+
+    estimateItems.replaceChildren(
+        ...includedItems.map((item) => {
+            const listItem = document.createElement("li");
+            listItem.textContent = item;
+            return listItem;
+        })
+    );
+
+    document.querySelector(
+        "#contact-estimate-project-total"
+    ).textContent = money.format(estimate.costs.projectTotal);
+
+    document.querySelector(
+        "#contact-estimate-monthly-total"
+    ).textContent =
+        `${money.format(estimate.costs.monthlyServices)}/month`;
+
+    document.querySelector(
+        "#contact-estimate-hosting-total"
+    ).textContent =
+        `${money.format(estimate.costs.annualHosting)}/year`;
+
+    const promotionMessage = document.querySelector(
+        "#contact-estimate-promotion"
+    );
+
+    if (
+        estimate.promotion &&
+        Number.isFinite(estimate.promotion.discountAmount)
+    ) {
+        promotionMessage.hidden = false;
+        promotionMessage.textContent =
+            `${estimate.promotion.label}: ` +
+            `${money.format(estimate.promotion.discountAmount)} saved`;
+    }
+
+    const addonNames = Array.isArray(estimate.addons)
+        ? estimate.addons
+            .map((addon) => addon && addon.name)
+            .filter(Boolean)
+        : [];
+
+    const fieldValues = {
+        "#estimate-package": estimate.packageName,
+        "#estimate-pages": String(estimate.totalPages),
+        "#estimate-addons": addonNames.length
+            ? addonNames.join(", ")
+            : "None selected",
+        "#estimate-product-uploads": estimate.productUploads
+            ? "Yes — up to five simple products per month"
+            : "No",
+        "#estimate-project-total": money.format(
+            estimate.costs.projectTotal
+        ),
+        "#estimate-monthly-services":
+            `${money.format(estimate.costs.monthlyServices)}/month`,
+        "#estimate-annual-services":
+            `${money.format(estimate.costs.annualServices)}/year`,
+        "#estimate-annual-hosting":
+            `${money.format(estimate.costs.annualHosting)}/year`,
+        "#estimate-annual-total":
+            `${money.format(estimate.costs.annualTotal)}/year`,
+        "#estimate-promotion": estimate.promotion
+            ? `${estimate.promotion.label} — ` +
+                `${money.format(estimate.promotion.discountAmount)} saved`
+            : "No promotion"
+    };
+
+    Object.entries(fieldValues).forEach(([selector, value]) => {
+        const field = document.querySelector(selector);
+
+        if (field) {
+            field.value = value;
+        }
+    });
+
+    const newWebsiteOption = document.querySelector(
+        'input[name="service"][value="new-website"]'
+    );
+
+    if (newWebsiteOption) {
+        newWebsiteOption.checked = true;
+    }
+
+    const budgetField = document.querySelector("#project-budget");
+    const projectTotal = estimate.costs.projectTotal;
+
+    if (budgetField) {
+        if (projectTotal < 500) {
+            budgetField.value = "under-500";
+        } else if (projectTotal <= 999) {
+            budgetField.value = "500-999";
+        } else if (projectTotal <= 2499) {
+            budgetField.value = "1000-2499";
+        } else {
+            budgetField.value = "2500-plus";
+        }
+    }
+
+    const messageField = document.querySelector("#project-message");
+
+    if (messageField) {
+        messageField.placeholder =
+            "Tell me about your business and anything else " +
+            "I should know about this estimate.";
+    }
+
+    preview.hidden = false;
+}
+
+/* =========================
    Formspark contact form
 ========================= */
 
@@ -458,6 +668,15 @@ function setupFormsparkContactForm() {
         delete payload["_email.from"];
         delete payload["_email.template.title"];
 
+        Object.entries(payload).forEach(([fieldName, value]) => {
+            if (
+                fieldName.startsWith("estimate_") &&
+                !value
+            ) {
+                delete payload[fieldName];
+            }
+        });
+
         payload.consent = formData.has("consent")
             ? "Agreed"
             : "Not agreed";
@@ -526,6 +745,7 @@ function setupFormsparkContactForm() {
 
 function initializeContactPage() {
     setupRealisticContactMap();
+    setupPricingEstimateHandoff();
     setupFormsparkContactForm();
 }
 

@@ -49,4 +49,118 @@
     color: #333333;
     background-color: #eeeeee;
 }
+
+.contact-estimate-preview[hidden] {
+    display: none;
+}
+
+.contact-estimate-preview {
+    padding: 24px;
+    color: #ffffff;
+    background-color: #111111;
+    border: 1px solid #303030;
+    border-radius: 22px;
+}
+
+.contact-estimate-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid #333333;
+}
+
+.contact-estimate-heading span {
+    color: #999999;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.contact-estimate-heading h2 {
+    margin: 7px 0 0;
+    font-size: 1.45rem;
+    line-height: 1.15;
+    letter-spacing: -0.025em;
+}
+
+.contact-estimate-heading a {
+    flex: 0 0 auto;
+    color: #ffffff;
+    font-size: 0.78rem;
+    font-weight: 750;
+}
+
+.contact-estimate-preview ul {
+    display: grid;
+    gap: 8px;
+    margin: 20px 0;
+    padding: 0;
+    color: #c3c3c3;
+    font-size: 0.82rem;
+    list-style: none;
+}
+
+.contact-estimate-preview li::before {
+    content: "✓";
+    margin-right: 8px;
+    color: #ffffff;
+    font-weight: 900;
+}
+
+.contact-estimate-costs {
+    display: grid;
+    gap: 10px;
+    padding: 17px 0;
+    border-top: 1px solid #333333;
+    border-bottom: 1px solid #333333;
+}
+
+.contact-estimate-costs div {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    color: #b7b7b7;
+    font-size: 0.8rem;
+}
+
+.contact-estimate-costs strong {
+    color: #ffffff;
+    text-align: right;
+}
+
+#contact-estimate-promotion {
+    margin: 16px 0 0;
+    padding: 12px 14px;
+    color: #111111;
+    font-size: 0.8rem;
+    font-weight: 800;
+    background-color: #ffffff;
+    border-radius: 12px;
+}
+
+#contact-estimate-promotion[hidden] {
+    display: none;
+}
+
+.contact-estimate-preview > small {
+    display: block;
+    margin-top: 16px;
+    color: #929292;
+    font-size: 0.75rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 620px) {
+    .contact-estimate-preview {
+        padding: 20px 16px;
+    }
+
+    .contact-estimate-heading {
+        flex-direction: column;
+    }
+}
+
 @media (prefers-reduced-motion: reduce) { .contact-orbit span,.response-dot { animation: none; }.contact-animate { opacity: 1; transform: none; transition: none; } }

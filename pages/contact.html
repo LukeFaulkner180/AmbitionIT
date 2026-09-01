@@ -6,8 +6,8 @@
 
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png">
     <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="stylesheet" href="/styles/main.css?v=261cb37">
-    <link rel="stylesheet" href="/styles/contact.css">
+    <link rel="stylesheet" href="/styles/main.css?v=20260901">
+    <link rel="stylesheet" href="/styles/contact.css?v=20260901">
 
     <title>Contact Ambition IT | Web Design Suffolk</title>
     <meta name="description" content="Contact Ambition IT in Stowmarket to discuss web design, website management, hosting or business IT support across Suffolk and East Anglia.">
@@ -120,6 +120,39 @@
                                 autocomplete="off"
                             >
                         </div>
+
+                        <section class="contact-estimate-preview" id="contact-estimate-preview" aria-labelledby="contact-estimate-title" hidden>
+                            <div class="contact-estimate-heading">
+                                <div>
+                                    <span>Saved estimate</span>
+                                    <h2 id="contact-estimate-title">Your website selections</h2>
+                                </div>
+                                <a href="/pages/pricing.html#instant-estimate">Build a new estimate</a>
+                            </div>
+
+                            <ul id="contact-estimate-items"></ul>
+
+                            <div class="contact-estimate-costs">
+                                <div><span>Website project</span><strong id="contact-estimate-project-total"></strong></div>
+                                <div><span>Monthly services</span><strong id="contact-estimate-monthly-total"></strong></div>
+                                <div><span>Annual hosting</span><strong id="contact-estimate-hosting-total"></strong></div>
+                            </div>
+
+                            <p id="contact-estimate-promotion" hidden></p>
+                            <small>This remains an estimate. Your final quotation will be confirmed after your requirements are reviewed.</small>
+                        </section>
+
+                        <input id="estimate-package" name="estimate_package" type="hidden">
+                        <input id="estimate-pages" name="estimate_pages" type="hidden">
+                        <input id="estimate-addons" name="estimate_addons" type="hidden">
+                        <input id="estimate-product-uploads" name="estimate_product_uploads" type="hidden">
+                        <input id="estimate-project-total" name="estimate_project_total" type="hidden">
+                        <input id="estimate-monthly-services" name="estimate_monthly_services" type="hidden">
+                        <input id="estimate-annual-services" name="estimate_annual_services" type="hidden">
+                        <input id="estimate-annual-hosting" name="estimate_annual_hosting" type="hidden">
+                        <input id="estimate-annual-total" name="estimate_annual_total" type="hidden">
+                        <input id="estimate-promotion" name="estimate_promotion" type="hidden">
+
                         <div class="contact-field-row">
                             <div class="contact-field">
                                 <label for="contact-name">Your name *</label>
@@ -232,8 +265,8 @@
 
     <site-footer></site-footer>
 
-    <script src="/Javascript/main.js" defer></script>
+    <script src="/Javascript/main.js?v=20260901" defer></script>
     <script src="/Javascript/footer.js?v=261cb37" defer></script>
-    <script src="/Javascript/contact.js" defer></script>
+    <script src="/Javascript/contact.js?v=20260901" defer></script>
 </body>
 </html>

@@ -1,14 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
-    setupEstimateBuilder();
-    setupPricingAnimations();
-});
+if (typeof document !== "undefined") {
+    document.addEventListener("DOMContentLoaded", () => {
+        setupEstimateBuilder();
+        setupPricingAnimations();
+    });
+}
 
 /*
  * EDIT PRICES HERE
  *
- * Website and add-on prices are one-off.
- * Management and hosting are calculated automatically
- * from the total number of pages.
+ * Website and add-on prices are one-off unless a monthly
+ * price is also shown. Management and hosting are calculated
+ * automatically from the selected package and total pages.
  */
 const pricingConfig = {
     packages: {
@@ -26,40 +28,51 @@ const pricingConfig = {
     },
 
     addons: {
-        blog: {
+        ecommerce: {
             name: "E-Commerce",
-            price: 350
+            price: 350,
+            monthlyPrice: 5,
+            requiresPackage: "multi-page"
         },
 
         booking: {
             name: "Booking integration",
-            price: 300
+            price: 300,
+            monthlyPrice: 8
         },
 
         copywriting: {
             name: "Website content support",
-            price: 125
+            price: 125,
+            monthlyPrice: 0
         },
 
         seo: {
             name: "Enhanced SEO setup",
-            price: 95
+            price: 95,
+            monthlyPrice: 0
         },
 
         email: {
             name: "Business email setup",
-            price: 75
+            price: 75,
+            monthlyPrice: 0
         }
     },
 
     extraPagePrice: 75,
+    extraPageMonthlyPrice: 3,
+
+    productUploads: {
+        name: "Monthly product uploads",
+        monthlyPrice: 25,
+        requiresAddon: "ecommerce"
+    },
 
     annualCosts: {
         management: {
             onePageMonthly: 25,
-            multiPageMonthly: 40,
-            pagesSixToEightMonthly: 8,
-            pagesAfterEightMonthly: 3
+            multiPageMonthly: 40
         },
 
         hosting: {
@@ -69,6 +82,214 @@ const pricingConfig = {
         }
     }
 };
+
+function clampWholeNumber(value, minimum, maximum) {
+    const parsedValue = Number.parseInt(value, 10);
+    const safeValue = Number.isFinite(parsedValue)
+        ? parsedValue
+        : minimum;
+
+    return Math.max(minimum, Math.min(maximum, safeValue));
+}
+
+function normaliseSelection(selection = {}) {
+    const packageKey = Object.hasOwn(
+        pricingConfig.packages,
+        selection.packageKey
+    )
+        ? selection.packageKey
+        : "one-page";
+
+    const extraPages = packageKey === "multi-page"
+        ? clampWholeNumber(selection.extraPages, 0, 50)
+        : 0;
+
+    const requestedAddons = Array.isArray(selection.addons)
+        ? selection.addons
+        : [];
+
+    const addons = [...new Set(requestedAddons)].filter((addonKey) => {
+        const addon = pricingConfig.addons[addonKey];
+
+        if (!addon) {
+            return false;
+        }
+
+        return !addon.requiresPackage ||
+            addon.requiresPackage === packageKey;
+    });
+
+    const productUploads = Boolean(
+        selection.productUploads &&
+        addons.includes(
+            pricingConfig.productUploads.requiresAddon
+        )
+    );
+
+    return {
+        packageKey,
+        extraPages,
+        addons,
+        productUploads
+    };
+}
+
+function calculateEstimate(selection = {}, promotion = null) {
+    const normalised = normaliseSelection(selection);
+    const packageData =
+        pricingConfig.packages[normalised.packageKey];
+
+    let projectSubtotal =
+        packageData.price +
+        normalised.extraPages * pricingConfig.extraPagePrice;
+
+    let monthlyServices =
+        normalised.packageKey === "one-page"
+            ? pricingConfig.annualCosts.management.onePageMonthly
+            : pricingConfig.annualCosts.management.multiPageMonthly;
+
+    monthlyServices +=
+        normalised.extraPages *
+        pricingConfig.extraPageMonthlyPrice;
+
+    const includedItems = [packageData.name];
+
+    if (normalised.extraPages > 0) {
+        includedItems.push(
+            `${normalised.extraPages} additional ${
+                normalised.extraPages === 1 ? "page" : "pages"
+            }`
+        );
+    }
+
+    const selectedAddons = normalised.addons.map((addonKey) => {
+        const addon = pricingConfig.addons[addonKey];
+
+        projectSubtotal += addon.price;
+        monthlyServices += addon.monthlyPrice;
+
+        includedItems.push(
+            addon.monthlyPrice > 0
+                ? `${addon.name} (+£${addon.monthlyPrice}/month)`
+                : addon.name
+        );
+
+        return {
+            key: addonKey,
+            name: addon.name,
+            price: addon.price,
+            monthlyPrice: addon.monthlyPrice
+        };
+    });
+
+    if (normalised.productUploads) {
+        monthlyServices +=
+            pricingConfig.productUploads.monthlyPrice;
+
+        includedItems.push(
+            `${pricingConfig.productUploads.name} ` +
+            `(+£${pricingConfig.productUploads.monthlyPrice}/month)`
+        );
+    }
+
+    const validPromotion = Boolean(
+        promotion &&
+        promotion.packageKey === normalised.packageKey &&
+        Number.isFinite(promotion.discountPercent) &&
+        promotion.discountPercent > 0
+    );
+
+    const promotionDiscount = validPromotion
+        ? Math.round(
+            packageData.price *
+            promotion.discountPercent /
+            100
+        )
+        : 0;
+
+    const projectTotal = Math.max(
+        0,
+        projectSubtotal - promotionDiscount
+    );
+
+    const hostingAnnual =
+        normalised.packageKey === "one-page"
+            ? pricingConfig.annualCosts.hosting.onePageAnnual
+            : pricingConfig.annualCosts.hosting.multiPageAnnual +
+                normalised.extraPages *
+                pricingConfig.annualCosts.hosting.perExtraPageAnnual;
+
+    const servicesAnnual = monthlyServices * 12;
+
+    return {
+        ...normalised,
+        packageName: packageData.name,
+        includedPages: packageData.includedPages,
+        totalPages: packageData.includedPages + normalised.extraPages,
+        selectedAddons,
+        includedItems,
+        projectSubtotal,
+        promotion: validPromotion
+            ? {
+                code: promotion.code,
+                label: promotion.label,
+                discountPercent: promotion.discountPercent,
+                discountAmount: promotionDiscount
+            }
+            : null,
+        projectTotal,
+        monthlyServices,
+        servicesAnnual,
+        hostingAnnual,
+        annualTotal: servicesAnnual + hostingAnnual
+    };
+}
+
+function getActivePromotion() {
+    if (
+        typeof window === "undefined" ||
+        !window.AmbitionITPromotion ||
+        typeof window.AmbitionITPromotion.isActive !== "function" ||
+        !window.AmbitionITPromotion.isActive()
+    ) {
+        return null;
+    }
+
+    const promotion = window.AmbitionITPromotion.config;
+
+    return {
+        code: promotion.code,
+        label: promotion.label,
+        packageKey: promotion.packageKey,
+        discountPercent: promotion.discountPercent
+    };
+}
+
+function createEstimateState(estimate) {
+    return {
+        version: 1,
+        packageKey: estimate.packageKey,
+        packageName: estimate.packageName,
+        includedPages: estimate.includedPages,
+        extraPages: estimate.extraPages,
+        totalPages: estimate.totalPages,
+        addons: estimate.selectedAddons,
+        productUploads: estimate.productUploads,
+        includedItems: estimate.includedItems,
+        costs: {
+            projectSubtotal: estimate.projectSubtotal,
+            promotionDiscount: estimate.promotion
+                ? estimate.promotion.discountAmount
+                : 0,
+            projectTotal: estimate.projectTotal,
+            monthlyServices: estimate.monthlyServices,
+            annualServices: estimate.servicesAnnual,
+            annualHosting: estimate.hostingAnnual,
+            annualTotal: estimate.annualTotal
+        },
+        promotion: estimate.promotion
+    };
+}
 
 function setupEstimateBuilder() {
     const form = document.querySelector("#estimate-form");
@@ -83,210 +304,170 @@ function setupEstimateBuilder() {
         maximumFractionDigits: 0
     });
 
-    const buildTotal =
-        document.querySelector("#build-total");
+    const buildTotal = document.querySelector("#build-total");
+    const monthlyServicesTotal = document.querySelector(
+        "#monthly-services-total"
+    );
+    const managementTotal = document.querySelector("#management-total");
+    const hostingTotal = document.querySelector("#hosting-total");
+    const annualTotal = document.querySelector("#annual-total");
+    const builderManagementTotal = document.querySelector(
+        "#builder-management-total"
+    );
+    const builderHostingTotal = document.querySelector(
+        "#builder-hosting-total"
+    );
+    const paymentMessage = document.querySelector("#payment-message");
+    const estimateItems = document.querySelector("#estimate-items");
+    const resetButton = document.querySelector("#reset-estimate");
+    const requestEstimateButton = document.querySelector(
+        "#request-estimate"
+    );
+    const extraPagesInput = document.querySelector("#extra-pages");
+    const decreasePages = document.querySelector("#decrease-pages");
+    const increasePages = document.querySelector("#increase-pages");
+    const additionalPagesOption = document.querySelector(
+        "#additional-pages-option"
+    );
+    const ecommerceInput = document.querySelector("#ecommerce-addon");
+    const ecommerceOption = document.querySelector("#ecommerce-option");
+    const productUploadInput = document.querySelector(
+        "#product-upload-service"
+    );
+    const productUploadOption = document.querySelector(
+        "#product-upload-option"
+    );
+    const ecommerceTerms = document.querySelector("#ecommerce-terms");
+    const productUploadTerms = document.querySelector(
+        "#product-upload-terms"
+    );
+    const availabilityMessage = document.querySelector(
+        "#estimate-availability-message"
+    );
+    const promotionSaving = document.querySelector("#promotion-saving");
+    const promotionLabel = document.querySelector("#promotion-label");
+    const promotionAmount = document.querySelector("#promotion-amount");
 
-    const managementTotal =
-        document.querySelector("#management-total");
+    let latestEstimateState = null;
 
-    const hostingTotal =
-        document.querySelector("#hosting-total");
-
-    const annualTotal =
-        document.querySelector("#annual-total");
-
-    const builderManagementTotal =
-        document.querySelector("#builder-management-total");
-
-    const builderHostingTotal =
-        document.querySelector("#builder-hosting-total");
-
-    const paymentMessage =
-        document.querySelector("#payment-message");
-
-    const estimateItems =
-        document.querySelector("#estimate-items");
-
-    const resetButton =
-        document.querySelector("#reset-estimate");
-
-    const extraPagesInput =
-        document.querySelector("#extra-pages");
-
-    const decreasePages =
-        document.querySelector("#decrease-pages");
-
-    const increasePages =
-        document.querySelector("#increase-pages");
-
-    const additionalPagesOption =
-        document.querySelector("#additional-pages-option");
-
-    function updateAdditionalPagesVisibility() {
+    function selectedPackageKey() {
         const selectedPackage = form.querySelector(
             'input[name="package"]:checked'
         );
 
-        if (!selectedPackage || !additionalPagesOption) {
-            return;
-        }
+        return selectedPackage
+            ? selectedPackage.value
+            : "one-page";
+    }
 
+    function updateOptionAvailability() {
         const multiPageSelected =
-            selectedPackage.value === "multi-page";
+            selectedPackageKey() === "multi-page";
 
-        additionalPagesOption.hidden =
-            !multiPageSelected;
-
+        additionalPagesOption.hidden = !multiPageSelected;
         additionalPagesOption.style.display =
             multiPageSelected ? "" : "none";
 
         if (!multiPageSelected) {
             extraPagesInput.value = 0;
+            ecommerceInput.checked = false;
+        }
+
+        ecommerceInput.disabled = !multiPageSelected;
+        ecommerceOption.classList.toggle(
+            "is-unavailable",
+            !multiPageSelected
+        );
+        ecommerceOption.setAttribute(
+            "aria-disabled",
+            String(!multiPageSelected)
+        );
+
+        const ecommerceSelected = Boolean(
+            multiPageSelected && ecommerceInput.checked
+        );
+
+        productUploadOption.hidden = !ecommerceSelected;
+        productUploadInput.disabled = !ecommerceSelected;
+        ecommerceTerms.hidden = !ecommerceSelected;
+
+        if (!ecommerceSelected) {
+            productUploadInput.checked = false;
+        }
+
+        productUploadTerms.hidden =
+            !productUploadInput.checked;
+
+        if (!multiPageSelected) {
+            availabilityMessage.textContent =
+                "E-commerce and monthly product uploads " +
+                "are available with multi-page websites.";
+        } else if (!ecommerceSelected) {
+            availabilityMessage.textContent =
+                "Select e-commerce to add the optional " +
+                "monthly product upload service.";
+        } else {
+            availabilityMessage.textContent =
+                "E-commerce includes up to 20 initial simple products.";
         }
     }
 
-    function updateEstimate() {
-        const selectedPackage = form.querySelector(
-            'input[name="package"]:checked'
-        );
-
-        if (!selectedPackage) {
-            return;
-        }
-
-        const packageData =
-            pricingConfig.packages[selectedPackage.value];
-
-        /*
-         * Make sure the extra-page quantity remains
-         * between zero and fifty.
-         */
-        const extraPages = Math.max(
-            0,
-            Math.min(
-                50,
-                Number.parseInt(extraPagesInput.value, 10) || 0
+    function readSelection() {
+        return {
+            packageKey: selectedPackageKey(),
+            extraPages: extraPagesInput.value,
+            addons: Array.from(
+                form.querySelectorAll(
+                    'input[name="addon"]:checked:not(:disabled)'
+                )
+            ).map((input) => input.value),
+            productUploads: Boolean(
+                productUploadInput.checked &&
+                !productUploadInput.disabled
             )
+        };
+    }
+
+    function updateEstimate() {
+        updateOptionAvailability();
+
+        const estimate = calculateEstimate(
+            readSelection(),
+            getActivePromotion()
         );
 
-        extraPagesInput.value = extraPages;
-
-        const totalPages =
-            packageData.includedPages + extraPages;
-
-        /*
-         * Calculate the one-off website cost.
-         */
-        let projectTotal =
-            packageData.price +
-            extraPages * pricingConfig.extraPagePrice;
-
-        /*
-         * Automatically calculate annual management
-         * and hosting from the total number of pages.
-         */
-        let managementMonthly;
-        let hostingAnnual;
-
-        if (selectedPackage.value === "one-page") {
-            managementMonthly =
-                pricingConfig.annualCosts.management
-                    .onePageMonthly;
-
-            hostingAnnual =
-                pricingConfig.annualCosts.hosting
-                    .onePageAnnual;
-        } else {
-            const pagesSixToEight =
-                Math.min(extraPages, 3);
-
-            const pagesAfterEight =
-                Math.max(extraPages - 3, 0);
-
-            managementMonthly =
-                pricingConfig.annualCosts.management
-                    .multiPageMonthly +
-                pagesSixToEight *
-                    pricingConfig.annualCosts.management
-                        .pagesSixToEightMonthly +
-                pagesAfterEight *
-                    pricingConfig.annualCosts.management
-                        .pagesAfterEightMonthly;
-
-            hostingAnnual =
-                pricingConfig.annualCosts.hosting
-                    .multiPageAnnual +
-                extraPages *
-                    pricingConfig.annualCosts.hosting
-                        .perExtraPageAnnual;
-        }
-
-        const managementAnnual =
-            managementMonthly * 12;
-
-        const includedItems = [
-            packageData.name
-        ];
-
-        if (extraPages > 0) {
-            includedItems.push(
-                `${extraPages} additional ${
-                    extraPages === 1 ? "page" : "pages"
-                }`
-            );
-        }
-
-        /*
-         * Add the selected optional features.
-         */
-        form.querySelectorAll(
-            'input[name="addon"]:checked'
-        ).forEach((input) => {
-            const selectedAddon =
-                pricingConfig.addons[input.value];
-
-            if (!selectedAddon) {
-                return;
-            }
-
-            projectTotal += selectedAddon.price;
-            includedItems.push(selectedAddon.name);
-        });
-
-        /*
-         * Update the visible prices.
-         */
-        buildTotal.textContent =
-            money.format(projectTotal);
-
-        managementTotal.textContent =
-            money.format(managementAnnual);
-
-        hostingTotal.textContent =
-            money.format(hostingAnnual);
-
-        annualTotal.textContent =
-            money.format(
-                managementAnnual + hostingAnnual
-            );
-
+        extraPagesInput.value = estimate.extraPages;
+        buildTotal.textContent = money.format(estimate.projectTotal);
+        monthlyServicesTotal.textContent =
+            `${money.format(estimate.monthlyServices)}/month`;
+        managementTotal.textContent = money.format(
+            estimate.servicesAnnual
+        );
+        hostingTotal.textContent = money.format(
+            estimate.hostingAnnual
+        );
+        annualTotal.textContent = money.format(estimate.annualTotal);
         builderManagementTotal.textContent =
-            `${money.format(managementMonthly)}/month · ` +
-            `${money.format(managementAnnual)}/year`;
-
+            `${money.format(estimate.monthlyServices)}/month · ` +
+            `${money.format(estimate.servicesAnnual)}/year`;
         builderHostingTotal.textContent =
-            `${money.format(hostingAnnual)}/year`;
+            `${money.format(estimate.hostingAnnual)}/year`;
 
-        /*
-         * Apply the correct payment terms.
-         */
-        if (projectTotal <= 999) {
+        promotionSaving.hidden = !estimate.promotion;
+
+        if (estimate.promotion) {
+            promotionLabel.textContent = estimate.promotion.label;
+            promotionAmount.textContent =
+                `−${money.format(estimate.promotion.discountAmount)}`;
+        }
+
+        if (estimate.projectTotal <= 999) {
             paymentMessage.textContent =
                 "This project would be payable upfront " +
                 "because the estimated project cost is " +
                 "£999 or less.";
         } else {
-            const firstPayment = projectTotal / 2;
+            const firstPayment = estimate.projectTotal / 2;
 
             paymentMessage.textContent =
                 `Estimated payment plan: ` +
@@ -295,69 +476,45 @@ function setupEstimateBuilder() {
                 `project is complete.`;
         }
 
-        /*
-         * Display everything included in the estimate.
-         */
         estimateItems.replaceChildren(
-            ...includedItems.map((name) => {
-                const listItem =
-                    document.createElement("li");
-
+            ...estimate.includedItems.map((name) => {
+                const listItem = document.createElement("li");
                 listItem.textContent = name;
-
                 return listItem;
             })
         );
+
+        latestEstimateState = createEstimateState(estimate);
+
+        const encodedEstimate = encodeURIComponent(
+            JSON.stringify(latestEstimateState)
+        );
+
+        requestEstimateButton.href =
+            `/pages/contact.html?estimate=${encodedEstimate}` +
+            "#project-form";
     }
 
-    /*
-     * Update whenever a package or add-on changes.
-     */
-    form.addEventListener("change", (event) => {
-        if (event.target.name === "package") {
-            updateAdditionalPagesVisibility();
-        }
+    form.addEventListener("change", updateEstimate);
+    extraPagesInput.addEventListener("input", updateEstimate);
 
-        updateEstimate();
-    });
-
-    extraPagesInput.addEventListener(
-        "input",
-        updateEstimate
-    );
-
-    /*
-     * Extra-page minus button.
-     */
     decreasePages.addEventListener("click", () => {
-        const currentAmount =
-            Number.parseInt(extraPagesInput.value, 10) || 0;
-
-        extraPagesInput.value =
-            Math.max(0, currentAmount - 1);
-
+        extraPagesInput.value = Math.max(
+            0,
+            clampWholeNumber(extraPagesInput.value, 0, 50) - 1
+        );
         updateEstimate();
     });
 
-    /*
-     * Extra-page plus button.
-     */
     increasePages.addEventListener("click", () => {
-        const currentAmount =
-            Number.parseInt(extraPagesInput.value, 10) || 0;
-
-        extraPagesInput.value =
-            Math.min(50, currentAmount + 1);
-
+        extraPagesInput.value = Math.min(
+            50,
+            clampWholeNumber(extraPagesInput.value, 0, 50) + 1
+        );
         updateEstimate();
     });
 
-    /*
-     * Package buttons at the top of the page.
-     */
-    document.querySelectorAll(
-        "[data-select-package]"
-    ).forEach((button) => {
+    document.querySelectorAll("[data-select-package]").forEach((button) => {
         button.addEventListener("click", () => {
             const packageInput = form.querySelector(
                 `input[value="${button.dataset.selectPackage}"]`
@@ -368,32 +525,66 @@ function setupEstimateBuilder() {
             }
 
             packageInput.checked = true;
-
-            updateAdditionalPagesVisibility();
             updateEstimate();
 
-            document
-                .querySelector("#instant-estimate")
-                .scrollIntoView({
-                    behavior: "smooth"
-                });
+            document.querySelector("#instant-estimate").scrollIntoView({
+                behavior: "smooth"
+            });
         });
     });
 
-    /*
-     * Reset the calculator.
-     */
     resetButton.addEventListener("click", () => {
         form.reset();
-        updateAdditionalPagesVisibility();
         updateEstimate();
     });
 
-    /*
-     * Show the starting estimate when the page loads.
-     */
-    updateAdditionalPagesVisibility();
+    requestEstimateButton.addEventListener("click", () => {
+        if (!latestEstimateState) {
+            return;
+        }
+
+        try {
+            window.sessionStorage.setItem(
+                "ambition-it-estimate",
+                JSON.stringify(latestEstimateState)
+            );
+        } catch (error) {
+            console.warn(
+                "The estimate could not be saved in this browser session.",
+                error
+            );
+        }
+    });
+
+    const requestedPromotion = new URLSearchParams(
+        window.location.search
+    ).get("promotion");
+    const activePromotion = getActivePromotion();
+
+    if (
+        requestedPromotion &&
+        activePromotion &&
+        requestedPromotion === activePromotion.code
+    ) {
+        const onePageInput = form.querySelector(
+            'input[name="package"][value="one-page"]'
+        );
+
+        if (onePageInput) {
+            onePageInput.checked = true;
+        }
+    }
+
     updateEstimate();
+}
+
+if (typeof module !== "undefined" && module.exports) {
+    module.exports = {
+        pricingConfig,
+        normaliseSelection,
+        calculateEstimate,
+        createEstimateState
+    };
 }
 
 function setupPricingAnimations() {
@@ -468,10 +659,6 @@ function setupPricingAnimations() {
         document.querySelector(".pricing-final-inner")
     );
 
-    /*
-     * Display everything immediately when reduced-motion
-     * is enabled or Intersection Observer is unavailable.
-     */
     if (
         reducedMotion ||
         !("IntersectionObserver" in window)
@@ -479,7 +666,6 @@ function setupPricingAnimations() {
         animationItems.forEach((item) => {
             item.classList.add("is-visible");
         });
-
         return;
     }
 
@@ -490,13 +676,8 @@ function setupPricingAnimations() {
                     return;
                 }
 
-                entry.target.classList.add(
-                    "is-visible"
-                );
-
-                currentObserver.unobserve(
-                    entry.target
-                );
+                entry.target.classList.add("is-visible");
+                currentObserver.unobserve(entry.target);
             });
         },
         {

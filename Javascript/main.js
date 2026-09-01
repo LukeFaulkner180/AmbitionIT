@@ -1,8 +1,215 @@
+/* Edit the offer dates or set enabled to false here. */
+const ambitionPromotionConfig = Object.freeze({
+    enabled: true,
+    code: "ONEPAGE10",
+    label: "10% one-page website offer",
+    packageKey: "one-page",
+    discountPercent: 10,
+    startDate: "2026-09-01T00:00:00+01:00",
+    endDate: "2026-09-30T23:59:59+01:00",
+    displayStartDate: "1 September 2026",
+    displayEndDate: "30 September 2026"
+});
+
+window.AmbitionITPromotion = Object.freeze({
+    config: ambitionPromotionConfig,
+
+    isActive(date = new Date()) {
+        const startsAt = new Date(
+            ambitionPromotionConfig.startDate
+        );
+        const endsAt = new Date(
+            ambitionPromotionConfig.endDate
+        );
+
+        return Boolean(
+            ambitionPromotionConfig.enabled &&
+            date >= startsAt &&
+            date <= endsAt
+        );
+    }
+});
+
 document.addEventListener("DOMContentLoaded", () => {
     setupMobileMenu();
     setupProcessAnimations();
     setupPageLoadAnimations();
+    setupWebsitePromotion();
 });
+
+/* =========================
+   Limited-time promotion
+========================= */
+
+function setupWebsitePromotion() {
+    if (!window.AmbitionITPromotion.isActive()) {
+        return;
+    }
+
+    const pagesWithoutPopup = [
+        "/pages/pricing.html",
+        "/pages/contact.html"
+    ];
+
+    if (pagesWithoutPopup.includes(window.location.pathname)) {
+        return;
+    }
+
+    const dismissalKey =
+        `ambition-it-promotion-${ambitionPromotionConfig.code}`;
+
+    try {
+        if (window.sessionStorage.getItem(dismissalKey) === "dismissed") {
+            return;
+        }
+    } catch (error) {
+        console.warn(
+            "Promotion dismissal preference could not be read.",
+            error
+        );
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "promotion-overlay";
+    overlay.setAttribute("role", "presentation");
+
+    overlay.innerHTML = `
+        <section
+            class="promotion-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="promotion-title"
+            aria-describedby="promotion-description"
+        >
+            <button
+                class="promotion-close"
+                type="button"
+                aria-label="Close website offer"
+            >
+                <span aria-hidden="true">×</span>
+            </button>
+
+            <p class="promotion-eyebrow">Limited-time website offer</p>
+
+            <h2 id="promotion-title">
+                Buy a one-page website.
+                <span>Save 10%.</span>
+            </h2>
+
+            <p id="promotion-description">
+                Buy a one-page website between
+                ${ambitionPromotionConfig.displayStartDate} and
+                ${ambitionPromotionConfig.displayEndDate} and receive
+                10% off the website build price.
+            </p>
+
+            <div class="promotion-price" aria-label="Promotional price">
+                <span>Website build</span>
+                <div><s>£250</s><strong>£225</strong></div>
+            </div>
+
+            <a
+                class="promotion-button"
+                href="/pages/pricing.html?promotion=${ambitionPromotionConfig.code}#instant-estimate"
+            >
+                Buy a one-page website
+                <span aria-hidden="true">→</span>
+            </a>
+
+            <small>
+                Hosting and optional ongoing services are priced separately.
+                A final quotation is confirmed before work begins.
+            </small>
+        </section>
+    `;
+
+    const closeButton = overlay.querySelector(".promotion-close");
+    const offerButton = overlay.querySelector(".promotion-button");
+    const focusableElements = [closeButton, offerButton];
+    const previouslyFocused = document.activeElement;
+
+    function rememberDismissal() {
+        try {
+            window.sessionStorage.setItem(
+                dismissalKey,
+                "dismissed"
+            );
+        } catch (error) {
+            console.warn(
+                "Promotion dismissal preference could not be saved.",
+                error
+            );
+        }
+    }
+
+    function closePromotion({ restoreFocus = true } = {}) {
+        rememberDismissal();
+        overlay.classList.remove("is-visible");
+        document.body.classList.remove("promotion-is-open");
+
+        window.setTimeout(() => {
+            overlay.remove();
+
+            if (
+                restoreFocus &&
+                previouslyFocused instanceof HTMLElement
+            ) {
+                previouslyFocused.focus();
+            }
+        }, 240);
+    }
+
+    closeButton.addEventListener("click", () => {
+        closePromotion();
+    });
+
+    offerButton.addEventListener("click", () => {
+        rememberDismissal();
+    });
+
+    overlay.addEventListener("click", (event) => {
+        if (event.target === overlay) {
+            closePromotion();
+        }
+    });
+
+    overlay.addEventListener("keydown", (event) => {
+        if (event.key === "Escape") {
+            closePromotion();
+            return;
+        }
+
+        if (event.key !== "Tab") {
+            return;
+        }
+
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements.at(-1);
+
+        if (event.shiftKey && document.activeElement === firstElement) {
+            event.preventDefault();
+            lastElement.focus();
+        } else if (
+            !event.shiftKey &&
+            document.activeElement === lastElement
+        ) {
+            event.preventDefault();
+            firstElement.focus();
+        }
+    });
+
+    document.body.appendChild(overlay);
+
+    const reducedMotion = window.matchMedia(
+        "(prefers-reduced-motion: reduce)"
+    ).matches;
+
+    window.setTimeout(() => {
+        overlay.classList.add("is-visible");
+        document.body.classList.add("promotion-is-open");
+        closeButton.focus();
+    }, reducedMotion ? 200 : 1200);
+}
 
 /* =========================
    Page Load Animations
